@@ -1,4 +1,5 @@
 import React, { useState} from 'react'
+import api from '../../services/api'
 
 import { 
           Title,
@@ -7,6 +8,7 @@ import {
           Title_name,
           Title_password,
           Title_phone,
+          Title_username,
           ButtomTouchableOpacity,
           Title_text,
           ContainerLogin,
@@ -22,7 +24,31 @@ export default function SingUp({ navigation }) {
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [phone, setPhone] = useState('')
+  const [username, setUsername] = useState('')
+  const [loading, setLoading] = useState(false)
 
+  async function handleSingUp() {
+    setLoading(true);
+
+    const data = {
+      email,
+      name,
+      password,
+      username,
+      phone
+    }
+
+    try {
+      const response = await api.post('/register', data)
+      setLoading(false)
+      alert('Registro realizado com sucesso!')
+      navigation.navigate('Login')
+    }catch(e){
+      setLoading(false)
+      alert('Erro ao registrar usuário, tente novamente')
+    }
+
+  }
 
   return (
       <ContainerKeyboard behavior="padding" enabled>
@@ -44,6 +70,13 @@ export default function SingUp({ navigation }) {
                   value={name}
                   onChangeText={setName}
                 />
+                <Title_username
+                  placeholder= 'username'
+                  autoCapitalize='none'
+                  autoCorrect={false}
+                  value={username}
+                  onChangeText={setUsername}
+                />
                 <Title_password
                   secureTextEntry={true}
                   placeholder='senha'
@@ -59,7 +92,7 @@ export default function SingUp({ navigation }) {
                   onChangeText={setPhone}
                 />
               </ContainerSigUp>
-              <ButtomTouchableOpacity>
+              <ButtomTouchableOpacity onPress={handleSingUp}>
                 <Title_text>Criar Conta</Title_text>
               </ButtomTouchableOpacity>
 
