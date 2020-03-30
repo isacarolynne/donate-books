@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
       
       alert('Login efetuado com sucesso!')
 
-      navigation.navigate('NewDonate')
+      navigation.navigate('Home')
     }catch{
       alert('Erro, verifique seu email e senha')
     }
