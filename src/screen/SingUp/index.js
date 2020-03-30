@@ -51,7 +51,7 @@ export default function SingUp({ navigation }) {
   }
 
   return (
-      <ContainerKeyboard behavior="padding" enabled>
+      <ContainerKeyboard >
         <ContainerInsideKeyboard>
             <Title>Cadastro</Title>
               <ContainerSigUp>
