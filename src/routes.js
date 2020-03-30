@@ -4,9 +4,10 @@ import React from 'react'
 
 import Login from './screen/Login'
 import SingUp from './screen/SingUp'
+import NewDonate from './screen/NewDonate'
 
 const stackNavigator = createStackNavigator({
-  Login, SingUp
+  Login, SingUp, NewDonate
 },
   {
     defaultNavigationOptions: ({ navigation }) => ({
