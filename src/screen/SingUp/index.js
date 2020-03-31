@@ -95,7 +95,7 @@ export default function SingUp({ navigation }) {
 
               <ContainerLogin>
                 <Title_text_login>Ainda não possui conta?</Title_text_login>
-                <Text_login onPress={() => navigation.navigate('Login')}
+                <Text_login onPress={() => navigation.navigate('ChatList')}
                 >Registre-se grátis</Text_login>
               </ContainerLogin>
             </ContainerInsideKeyboard>

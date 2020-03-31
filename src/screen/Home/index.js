@@ -6,6 +6,7 @@ import MockData from './Card/mock_data.js';
 import api from '../../services/api';
 import { AsyncStorage } from 'react-native';
 import user from '../../../assets/user.png'
+import firebase from 'firebase';
 
 import {
     Container,
@@ -39,20 +40,24 @@ export default function Login({ navigation }) {
         mount()
     },[])
 
-    function handleClickCard(id) {
+    function handleClickCard(id, nameDonor, donorId) {
         Alert.alert(
             'Tem certeza que deseja esse livro?',
             undefined,
             [
                 {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                {text: 'OK', onPress: () => donateBook(id)},
+                {text: 'OK', onPress: () => donateBook(id, nameDonor, donorId)},
             ]
         )
     }
 
-    async function donateBook(id) {
+    async function donateBook(id, nameDonor, donorId) {
         const userId = await AsyncStorage.getItem('userId')
         const token = await AsyncStorage.getItem('token')
+
+        AsyncStorage.setItem('nameDonor', nameDonor)
+        AsyncStorage.setItem('donorId', String(donorId))
+
 
         const data = {
             address: 'recife',
@@ -68,6 +73,12 @@ export default function Login({ navigation }) {
             alert('Pronto, o livro é quase seu')
 
             //Abrir Chat aqui
+
+            let interestId = firebase.database().ref('interests').push().key;
+            firebase.database().ref('interests/' + interestId).set({ userId: userId, nameDonor: nameDonor, donor_id: donorId });
+
+            navigation.navigate('ChatList')
+
         }catch(e){
             console.log(e)
             alert('Erro, no momento o livro não pode ser doado, tente novamente')
@@ -97,7 +108,9 @@ export default function Login({ navigation }) {
                             key={book.id}
                             id={book.id}
                             title={book.title}
-                            author={book.user.name}
+                            author={book.author}
+                            nameDonor={book.user.name}
+                            donorId={book.donor_id}
                             points={book.credit}
                             description={book.resume}
                             rate={4.7}
