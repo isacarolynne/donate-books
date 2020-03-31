@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
     width: 96%;
-    height: 12%;
+    height: 130px;
     display: flex;
     flexFlow: row nowrap;
     justifyContent: space-around;
@@ -24,7 +24,7 @@ export const ContainerLeft = styled.View`
 
 export const ContainerRight = styled.View`
     width: 60%;
-    height: 100%%;
+    height: 100%;
     flexFlow: column nowrap;
     alignItems: center;
     justifyContent: center;

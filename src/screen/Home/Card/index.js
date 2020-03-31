@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Text, View } from 'react-native';
+import { Image, Text, View, TouchableOpacity } from 'react-native';
 import {
     Container,
     ContainerLeft,
@@ -15,6 +15,7 @@ import { preventAutoHide } from 'expo/build/launch/SplashScreen';
 
 const Card = props => {
     const {
+        id,
         title,
         author,
         points,
@@ -22,30 +23,33 @@ const Card = props => {
         rate,
         profilePicture,
         bookPicture,
+        handleClickCard
     } = props;
 
     return (
-        <Container>
-            <ContainerLeft>
-                <Image
-                    style={{ display: 'flex', flex: 1, height:90}}
-                    source={profilePicture}
-                />
-            </ContainerLeft>
-            <ContainerRight>
-                <ContainerRightUpside>
-                    <View>
-                        <Title>{title}</Title>
-                        <Autor>{author}</Autor>
-                        <Points>$ {points}</Points>
-                    </View>
-                </ContainerRightUpside>
+        <TouchableOpacity onPress={() => handleClickCard(id)}>
+            <Container>
+                    <ContainerLeft>
+                        <Image
+                            style={{ display: 'flex', flex: 1, height: 50, width: 100}}
+                            source={profilePicture}
+                        />
+                    </ContainerLeft>
+                    <ContainerRight>
+                        <ContainerRightUpside>
+                            <View>
+                                <Title>{title}</Title>
+                                <Autor>{author}</Autor>
+                                <Points>$ {points}</Points>
+                            </View>
+                        </ContainerRightUpside>
 
-                <ContainerRightDownside>
-                    <Description>{description}</Description>
-                </ContainerRightDownside>
-            </ContainerRight>
-        </Container>
+                        <ContainerRightDownside>
+                            <Description numberOfLines={4}>{description}</Description>
+                        </ContainerRightDownside>
+                    </ContainerRight>
+            </Container>
+        </TouchableOpacity>
     );
 };
 
