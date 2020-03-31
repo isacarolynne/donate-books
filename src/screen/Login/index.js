@@ -20,16 +20,16 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  async function hasToken(){
-    const token = await AsyncStorage.getItem('token')
-    const userID = await AsyncStorage.getItem('userId')
+  // async function hasToken(){
+  //   const token = await AsyncStorage.getItem('token')
+  //   const userID = await AsyncStorage.getItem('userId')
     
-    if(token && userID) navigation.navigate('Home')
-  }
+  //   if(token && userID) navigation.navigate('Home')
+  // }
 
-  useEffect(() => {
-    hasToken()
-  }, [])
+  // useEffect(() => {
+  //   hasToken()
+  // }, [])
 
   async function handleSingin(){
     const data = {email, password}

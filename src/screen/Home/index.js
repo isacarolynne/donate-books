@@ -6,7 +6,7 @@ import MockData from './Card/mock_data.js';
 import api from '../../services/api';
 import { AsyncStorage } from 'react-native';
 import user from '../../../assets/user.png'
-import firebase from 'firebase';
+import firebase from '../../../firebase';
 
 import {
     Container,
