@@ -1,12 +1,19 @@
-import { createAppContainer } from 'react-navigation'
+import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import React from 'react'
 
 import Login from './screen/Login'
 import SingUp from './screen/SingUp'
+import ChatList from './screen/ChatList'
+import Chat from './screen/Chat'
+import Profile from './screen/Profile'
 
 const stackNavigator = createStackNavigator({
-  Login, SingUp
+  Profile,
+  Login, 
+  // SingUp,
+  // ChatList,
+  // Chat,
 },
   {
     defaultNavigationOptions: ({ navigation }) => ({
