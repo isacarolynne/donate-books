@@ -6,7 +6,7 @@ import MockData from './Card/mock_data.js';
 import api from '../../services/api';
 import { AsyncStorage } from 'react-native';
 import user from '../../../assets/user.png'
-import firebase from '../../../firebase';
+import firebase from 'firebase';
 
 import {
     Container,
@@ -70,7 +70,6 @@ export default function Login({ navigation }) {
             const response = await api.post('/users/donations', data, {
                 headers: {Authorization: `Bearer ${token}`}
             })
-            console.log(response.data)
             alert('Pronto, o livro é quase seu')
 
             //Abrir Chat aqui
@@ -92,9 +91,7 @@ export default function Login({ navigation }) {
         }
         else if(text.length % 2 === 0){
             setBooksFilter(books.filter(book => book.title.toUpperCase().includes(text.toUpperCase())))
-            console.log(books)
         }
-        
     }
 
     return (
