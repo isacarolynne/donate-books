@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import firebasePackage from 'firebase';
 import firebase from '../../../firebase';
 
 import {
@@ -61,7 +62,7 @@ export default function Chat({ navigation }) {
       let updates = {};
       let message = {
         message: textMessage,
-        time: firebase.database.ServerValue.TIMESTAMP,
+        time: firebasePackage.database.ServerValue.TIMESTAMP,
         from: parseInt(userId)
       }
       updates['messages/' + parseInt(userId) + '/' + parseInt(donorId) + '/' + msgId] = message;
