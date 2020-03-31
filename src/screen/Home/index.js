@@ -21,6 +21,8 @@ import Card from './Card';
 moment.locale('pt-BR')
 export default function Login({ navigation }) {
     const [books, setBooks] = useState([])
+    const [booksFilter, setBooksFilter] = useState([])
+
 
     async function mount(){
         const userId = await AsyncStorage.getItem('userId')
@@ -31,6 +33,7 @@ export default function Login({ navigation }) {
         })
 
         setBooks(response.data)
+        setBooksFilter(response.data)
     }
 
     useEffect(() => {
@@ -83,15 +86,26 @@ export default function Login({ navigation }) {
         }
     }
 
+    function filterBook(text) {
+        if(text.length === 0) {
+            setBooksFilter(books)
+        }
+        else if(text.length % 2 === 0){
+            setBooksFilter(books.filter(book => book.title.toUpperCase().includes(text.toUpperCase())))
+            console.log(books)
+        }
+        
+    }
+
     return (
         <Container >
             <ContainerSearch>
                 <Icon name="magnifying-glass" size={24} color="#dcdcdc" />
-                <Search_text />
+                <Search_text onChangeText={(text) => filterBook(text)} />
             </ContainerSearch>
 
             <ContainerList>
-                {books.map((book, index) => {
+                {booksFilter.map((book, index) => {
                     return (
                         <Card
                             key={book.id}
