@@ -53,15 +53,15 @@ export const ContainerRightDownside = styled.View`
 
 export const Title = styled.Text`
     fontWeight: bold;
-    fontSize:13px
+    fontSize: 16px
 `;
 
 export const Autor = styled.Text`
-    fontSize:8px
+    fontSize: 10px
 `;
 
 export const Points = styled.Text`
-    fontSize:12px
+    fontSize: 13px
 `;
 
 export const Description = styled.Text`

@@ -14,7 +14,7 @@ import {
 } from './style'
 
 
-export default function Book({handleNewDonation}) {
+export default function Book() {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [resume, setResume] = useState('')
@@ -40,7 +40,6 @@ export default function Book({handleNewDonation}) {
 
       alert('Livro registrado com sucesso!')
 
-      handleNewDonation(responde.data.id)
     }catch(e){
       console.log(e)
       alert('Erro ao registrar livro, tente novamente.')

@@ -65,7 +65,6 @@ export default function Login({ navigation }) {
             const response = await api.post('/users/donations', data, {
                 headers: {Authorization: `Bearer ${token}`}
             })
-            console.log(response.data)
             alert('Pronto, o livro é quase seu')
 
             //Abrir Chat aqui
@@ -81,9 +80,7 @@ export default function Login({ navigation }) {
         }
         else if(text.length % 2 === 0){
             setBooksFilter(books.filter(book => book.title.toUpperCase().includes(text.toUpperCase())))
-            console.log(books)
         }
-        
     }
 
     return (
@@ -101,7 +98,7 @@ export default function Login({ navigation }) {
                             id={book.id}
                             title={book.title}
                             author={book.user.name}
-                            points={book.user.points}
+                            points={book.credit}
                             description={book.resume}
                             rate={4.7}
                             profilePicture={user}

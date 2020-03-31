@@ -10,15 +10,11 @@ import {
 
 export default function NewDonate() {
 
-  function handleNewDonation(id) {
-    console.log('aqui')
-  }
+
   return (
     <ScrollViewNewDonate>
       <ContainerNewDonate>
-          <Book
-            handleNewDonation={handleNewDonation}
-          />
+          <Book/>
       </ContainerNewDonate>
     </ScrollViewNewDonate>
   );

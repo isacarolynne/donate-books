@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AsyncStorage } from 'react-native'
 import api from '../../services/api'
 
@@ -20,13 +20,22 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  async function hasToken(){
+    const token = await AsyncStorage.getItem('token')
+    const userID = await AsyncStorage.getItem('userId')
+    
+    if(token && userID) navigation.navigate('Home')
+  }
+
+  useEffect(() => {
+    hasToken()
+  }, [])
+
   async function handleSingin(){
     const data = {email, password}
 
     try {
       const response = await api.post('auth', data)
-
-      console.log(response.data.token.token, response.data.user.id)
 
       AsyncStorage.setItem('token', response.data.token.token)
       AsyncStorage.setItem('userId', String(response.data.user.id))
