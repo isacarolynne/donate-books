@@ -18,6 +18,8 @@ const Card = props => {
         id,
         title,
         author,
+        nameDonor,
+        donorId,
         points,
         description,
         rate,
@@ -27,7 +29,7 @@ const Card = props => {
     } = props;
 
     return (
-        <TouchableOpacity onPress={() => handleClickCard(id)}>
+        <TouchableOpacity onPress={() => handleClickCard(id, nameDonor, donorId)}>
             <Container>
                     <ContainerLeft>
                         <Image

@@ -11,11 +11,13 @@ import Login from './screen/Login'
 import SingUp from './screen/SingUp'
 import Home from './screen/Home'
 import Chat from './screen/Chat'
+import ChatList from './screen/ChatList'
 import NewDonate from './screen/NewDonate'
 import Profile from './screen/Profile'
 
 Icon.loadFont();
 
+const ChatStack = createStackNavigator({ ChatList, Chat });
 
 const Routes = createAppContainer(
   createSwitchNavigator(
@@ -42,7 +44,7 @@ const Routes = createAppContainer(
           },
 
           Chat: {
-            screen: Chat,
+            screen: ChatStack,
             navigationOptions: () => ({
               tabBarIcon: ({ focused }) => (
                 <Icon name="wechat" size={20} color={focused ? '#fff' : '#ddd'} />

@@ -6,26 +6,43 @@ import {
   Text, 
   TouchableOpacity, 
   FlatList, 
-  ActivityIndicator 
+  ActivityIndicator, 
+  AsyncStorage 
 } from 'react-native';
 import firebase from '../../../firebase';
 
+
+
 export default function ChatList({ navigation }) {
 
+  ChatList.navigationOptions = () => {
+    return {
+        title: 'Contacts',
+    }
+  }
+
   const [interests, setInterests] = useState([]);
-  const [receiver_id, setReceiverId] = useState(10);
-  const [donor_id, setDonorId] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  async function fetchDate() {
+    const userId = await AsyncStorage.getItem('userId')
+    const donorId = await AsyncStorage.getItem('donorId')
+    
+    return { userId, donorId }
+  }
 
   useEffect(() => {
     setLoading(true);
     let wishes = [];
 
+    const data = fetchDate();
+
+
     firebase.database().ref('interests').on('child_added', (value) => {
       wishes.push(value.val())
       
       if (wishes.length > 1) {
-        const interestsFiltered = wishes.filter((interest) => (interest.donor_id == donor_id || interest.receiver_id == receiver_id));
+        const interestsFiltered = wishes.filter((interest) => (interest.donorId == data.donorId || interest.userId == data.userId));
         setInterests(interestsFiltered);
         setLoading(false);
       }
@@ -39,7 +56,7 @@ export default function ChatList({ navigation }) {
         onPress={() => navigation.navigate('Chat', item)}
         style={styles.listContacts}>
 
-        <Text style={styles.textContact}>{item.title}</Text>
+        <Text style={styles.textContact}>{item.nameDonor}</Text>
       </TouchableOpacity>
     )
   }
