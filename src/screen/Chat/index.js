@@ -27,27 +27,28 @@ export default function Chat({ navigation }) {
   const { height } = Dimensions.get('window');
 
 
-  async function fetchDate() {
-    const userId = await AsyncStorage.getItem('userId');
-    const donorId = await AsyncStorage.getItem('donorId');
-    const nameDonor = await AsyncStorage.getItem('nameDonor')
-
-    setNameDonor(nameDonor);
-    setUserId(userId);
-    setDonorId(donorId);
-  } 
+  
 
   useEffect(() => {
     let messages = [];
 
-    fetchDate();  
+    async function fetchDate() {
+      const userId = await AsyncStorage.getItem('userId');
+      const donorId = await AsyncStorage.getItem('donorId');
+      const nameDonor = await AsyncStorage.getItem('nameDonor')
+  
+      setNameDonor(nameDonor);
+      setUserId(userId);
+      setDonorId(donorId);
 
-    firebase.database().ref('messages').child(parseInt(userId)).child(parseInt(donorId))
+      firebase.database().ref('messages').child(parseInt(userId)).child(parseInt(donorId))
       .on('child_added', (value) => {
-        messages.push(value.val())
+        messages.push(value.val());
       })
-
       setMessageList(messages);
+    } 
+
+    fetchDate(); 
 
   }, []);
 

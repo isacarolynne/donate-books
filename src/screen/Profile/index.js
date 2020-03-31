@@ -1,17 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { KeyboardAvoidingView, View, Text, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView, View, Text, TouchableOpacity, AsyncStorage } from 'react-native';
 
 import styles from './style';
 
 export default function Profile({ navigation }) {
+
+  const [nameUser, setNameUser] = useState('');
+
+  async function fetchData() {
+    const nameUser = await AsyncStorage.getItem('nameUser'); 
+    setNameUser(nameUser);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior={'padding'} enabled>
       <View style={styles.iconUser}>
         <Icon name="face" size={60} color="#000" style={{ marginTop: 7 }} />
       </View>
       <View style={{ marginTop: 5 }}>
-        <Text style={{ paddingBottom: 30, fontSize: 22 }}>Lucas Ferreira</Text>
+      <Text style={{ paddingBottom: 30, fontSize: 22 }}>{nameUser}</Text>
       </View>
       <View style={{ marginTop: 1 }}>
         <View style={{ backgroundColor: '#FEB665', borderRadius: 20, padding: 15,  }}>

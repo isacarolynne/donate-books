@@ -30,6 +30,8 @@ export default function Login({ navigation }) {
 
       AsyncStorage.setItem('token', response.data.token.token)
       AsyncStorage.setItem('userId', String(response.data.user.id))
+      AsyncStorage.setItem('nameUser', String(response.data.user.name))
+
       
       alert('Login efetuado com sucesso!')
 

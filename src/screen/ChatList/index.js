@@ -9,7 +9,7 @@ import {
   ActivityIndicator, 
   AsyncStorage 
 } from 'react-native';
-import firebase from '../../../firebase';
+import firebase from 'firebase';
 
 
 
@@ -23,6 +23,8 @@ export default function ChatList({ navigation }) {
 
   const [interests, setInterests] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState('');
+  const [donorId, setDonorId] = useState('');
 
   async function fetchDate() {
     const userId = await AsyncStorage.getItem('userId')
@@ -35,18 +37,26 @@ export default function ChatList({ navigation }) {
     setLoading(true);
     let wishes = [];
 
-    const data = fetchDate();
+    async function fetchDate() {
+      const userId = await AsyncStorage.getItem('userId')
+      const donorId = await AsyncStorage.getItem('donorId')
 
+      setUserId(userId);
+      setDonorId(donorId);
 
-    firebase.database().ref('interests').on('child_added', (value) => {
-      wishes.push(value.val())
-      
-      if (wishes.length > 1) {
-        const interestsFiltered = wishes.filter((interest) => (interest.donorId == data.donorId || interest.userId == data.userId));
-        setInterests(interestsFiltered);
-        setLoading(false);
-      }
-    });
+      firebase.database().ref('interests').on('child_added', (value) => {
+        wishes.push(value.val())
+        
+        if (wishes.length > 1) {
+          const interestsFiltered = wishes.filter((interest) => (interest.donor_id == donorId || interest.userId == userId));
+  
+          setInterests(interestsFiltered);
+          setLoading(false);
+        }
+      });
+    }
+
+    fetchDate();
   }, []);
 
 
