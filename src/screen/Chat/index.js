@@ -44,8 +44,11 @@ export default function Chat({ navigation }) {
       firebase.database().ref('messages').child(parseInt(userId)).child(parseInt(donorId))
       .on('child_added', (value) => {
         messages.push(value.val());
+
+        if (messages.length > 1) {
+          setMessageList(messages);
+        }
       })
-      setMessageList(messages);
     } 
 
     fetchDate(); 

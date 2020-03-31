@@ -26,13 +26,6 @@ export default function ChatList({ navigation }) {
   const [userId, setUserId] = useState('');
   const [donorId, setDonorId] = useState('');
 
-  async function fetchDate() {
-    const userId = await AsyncStorage.getItem('userId')
-    const donorId = await AsyncStorage.getItem('donorId')
-    
-    return { userId, donorId }
-  }
-
   useEffect(() => {
     setLoading(true);
     let wishes = [];
