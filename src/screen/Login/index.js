@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { AsyncStorage } from 'react-native'
+import api from '../../services/api'
 
 import {
   ContainerKeyboard,
@@ -17,6 +19,21 @@ import {
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  async function handleSingin(){
+    const data = {email, password}
+
+    try {
+      const response = await api.post('auth', data)
+      
+      AsyncStorage.setItem('token', response.data.token)
+      
+      alert('Login efetuado com sucesso!')
+    }catch{
+      alert('Erro, verifique seu email e senha')
+    }
+
+  }
 
   return (
       <ContainerKeyboard >
@@ -39,14 +56,15 @@ export default function Login({ navigation }) {
               onChangeText={setPassword}
             />
 
-            <ButtomTouchableOpacity>
+            <ButtomTouchableOpacity onPress={handleSingin}>
               <Title_text>Login</Title_text>
             </ButtomTouchableOpacity>
 
             <ContainerSigUp>
               <Title_text_singUp>Ainda não possui conta?</Title_text_singUp>
               <Text_singUp onPress={() => navigation.navigate('SingUp')}
-              >Registre-se grátis</Text_singUp>
+                >Registre-se grátis
+              </Text_singUp>
             </ContainerSigUp>
           </ContainerInsideKeyboard>
       </ContainerKeyboard>

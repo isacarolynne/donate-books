@@ -38,6 +38,11 @@ export const Title_password = styled(Title_email)`
 export const Title_phone = styled(Title_email)`
 
 `
+
+export const Title_username = styled(Title_email)`
+
+`
+
 export const ButtomTouchableOpacity = styled.TouchableOpacity`
     width: 40%;
     height: 7%;

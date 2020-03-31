@@ -16,3 +16,13 @@ export const ContainerInsideKeyboard = styled.View`
     width: 100%;
     height: 100%;
 `
+
+export const Container = styled.View`
+    flex:1
+    justifyContent:center
+    alignItems:center
+`
+
+export const Title = styled.Text`
+    fontSize:40px
+`
