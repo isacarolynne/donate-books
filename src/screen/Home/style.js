@@ -8,7 +8,7 @@ export const Container = styled.View`
     justify-content: space-between;
     align-items: center;
     background: #eeeeee;
-    paddingTop:25px
+    paddingTop:25px;
 `
 export const ContainerSearch = styled.View`
     flexDirection: row;
