@@ -11,7 +11,7 @@ import Login from './screen/Login'
 import SingUp from './screen/SingUp'
 import Home from './screen/Home'
 import Chat from './screen/Chat'
-import Donation from './screen/Donation'
+import NewDonate from './screen/NewDonate'
 import Profile from './screen/Profile'
 
 Icon.loadFont();
@@ -33,7 +33,7 @@ const Routes = createAppContainer(
           },
           
           Donation: {
-            screen: Donation,
+            screen: NewDonate,
             navigationOptions: () => ({
               tabBarIcon: ({ focused }) => (
                 <Icon_FontAwesome5 name="donate" size={20} color={focused ? '#fff' : '#ddd'} />

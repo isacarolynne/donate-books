@@ -25,7 +25,6 @@ export default function SingUp({ navigation }) {
   const [password, setPassword] = useState('')
   const [phone, setPhone] = useState('')
   const [username, setUsername] = useState('')
-  const [loading, setLoading] = useState(false)
 
   async function handleSingUp() {
     setLoading(true);
@@ -40,11 +39,9 @@ export default function SingUp({ navigation }) {
 
     try {
       const response = await api.post('/register', data)
-      setLoading(false)
       alert('Registro realizado com sucesso!')
       navigation.navigate('Login')
     }catch(e){
-      setLoading(false)
       alert('Erro ao registrar usuário, tente novamente')
     }
 

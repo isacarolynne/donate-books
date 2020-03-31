@@ -25,14 +25,18 @@ export default function Login({ navigation }) {
 
     try {
       const response = await api.post('auth', data)
-      
-      AsyncStorage.setItem('token', response.data.token)
+
+      console.log(response.data.token.token, response.data.user.id)
+
+      AsyncStorage.setItem('token', response.data.token.token)
+      AsyncStorage.setItem('userId', String(response.data.user.id))
       
       alert('Login efetuado com sucesso!')
+
+      navigation.navigate('Home')
     }catch{
       alert('Erro, verifique seu email e senha')
     }
-
   }
 
   return (
