@@ -9,8 +9,10 @@ import {
   ActivityIndicator, 
   AsyncStorage 
 } from 'react-native';
-import firebase from '../../../firebase';
 
+import { ContainerView, ItemContacts, TextContact } from './style';
+
+import firebase from '../../../firebase';
 
 
 export default function ChatList({ navigation }) {
@@ -55,23 +57,20 @@ export default function ChatList({ navigation }) {
 
   function renderRow ({ item }) {
     return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Chat', item)}
-        style={styles.listContacts}>
-
-        <Text style={styles.textContact}>{item.nameDonor}</Text>
-      </TouchableOpacity>
+      <ItemContacts onPress={() => navigation.navigate('Chat', item)}>
+        <TextContact>{item.nameDonor}</TextContact>
+      </ItemContacts>
     )
   }
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
+      <ContainerView>
         <ActivityIndicator 
           color={'#FEB665'}
           animating={loading}
         />
-      </View>
+      </ContainerView>
       <FlatList
         data={interests}
         renderItem={renderRow}
@@ -80,18 +79,3 @@ export default function ChatList({ navigation }) {
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center"
-  },
-  listContacts: {
-    padding: 10,
-    borderBottomColor: '#FEB665',
-    borderBottomWidth: 1,
-  },
-  textContact: {
-    fontSize: 18,
-  }
-})
