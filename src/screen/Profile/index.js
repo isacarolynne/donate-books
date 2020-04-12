@@ -17,6 +17,13 @@ export default function Profile({ navigation }) {
     fetchData();
   }, [])
 
+  async function handleLogout(){
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('userId')
+
+    navigation.navigate('Login')
+  }
+
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={'padding'} enabled>
@@ -46,7 +53,7 @@ export default function Profile({ navigation }) {
       </View>
 
       <View style={{ marginBottom: 20 }}>
-        <TouchableOpacity style={styles.exitButton} onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity style={styles.exitButton} onPress={handleLogout}>
           <Text style={styles.textButton}>SAIR</Text>
         </TouchableOpacity>
       </View>
