@@ -25,25 +25,27 @@ export default function Chat({ navigation }) {
   const [messageList, setMessageList] = useState([]);
   const [textMessage, setTextMessage] = useState('');
   const [interests, setInterests] = useState([]);
-  const [userId, setUserId] = useState('');
-  const [donorId, setDonorId] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [donorId, setDonorId] = useState(0);
   const [nameDonor, setNameDonor] = useState('');
   const { height } = Dimensions.get('window');
 
 
-  
-
   useEffect(() => {
     let messages = [];
 
-    async function fetchDate() {
-      const userId = await AsyncStorage.getItem('userId');
-      const donorId = await AsyncStorage.getItem('donorId');
-      const nameDonor = await AsyncStorage.getItem('nameDonor')
+    async function fetchData() {
+      const userId = navigation.getParam('userId');
+      const donorId = navigation.getParam('donor_id');
+      const nameDonor = navigation.getParam('nameDonor');
   
       setNameDonor(nameDonor);
       setUserId(userId);
       setDonorId(donorId);
+
+      console.log('ID DO DOADOR: ', navigation.getParam('donor_id'));
+      console.log('NOME DO DOADOR: ', navigation.getParam('nameDonor'));
+      console.log('ID DO USUARIO: ', navigation.getParam('userId'));
 
       firebase.database().ref('messages').child(parseInt(userId)).child(parseInt(donorId))
       .on('child_added', (value) => {
@@ -55,7 +57,7 @@ export default function Chat({ navigation }) {
       })
     } 
 
-    fetchDate(); 
+    fetchData(); 
 
   }, []);
 

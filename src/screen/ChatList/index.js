@@ -32,7 +32,7 @@ export default function ChatList({ navigation }) {
     setLoading(true);
     let wishes = [];
 
-    async function fetchDate() {
+    async function fetchData() {
       const userId = await AsyncStorage.getItem('userId')
       const donorId = await AsyncStorage.getItem('donorId')
 
@@ -51,7 +51,7 @@ export default function ChatList({ navigation }) {
       });
     }
 
-    fetchDate();
+    fetchData();
   }, []);
 
 

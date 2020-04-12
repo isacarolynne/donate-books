@@ -56,7 +56,7 @@ export default function Login({ navigation }) {
         const token = await AsyncStorage.getItem('token')
 
         AsyncStorage.setItem('nameDonor', nameDonor)
-        AsyncStorage.setItem('donorId', String(donorId))
+        AsyncStorage.setItem('donorId', donorId)
 
 
         const data = {
@@ -75,7 +75,7 @@ export default function Login({ navigation }) {
             //Abrir Chat aqui
 
             let interestId = firebase.database().ref('interests').push().key;
-            firebase.database().ref('interests/' + interestId).set({ userId: userId, nameDonor: nameDonor, donor_id: donorId });
+            firebase.database().ref('interests/' + interestId).set({ userId: parseInt(userId), nameDonor: nameDonor, donor_id: parseInt(donorId) });
 
             navigation.navigate('ChatList')
 
