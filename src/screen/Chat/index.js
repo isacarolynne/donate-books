@@ -2,18 +2,21 @@ import React, { useState, useEffect } from 'react';
 import firebasePackage from 'firebase';
 import firebase from '../../../firebase';
 
+import { 
+  TextMessage, 
+  TextTime, 
+  ContainerInputMessage, 
+  InputMessage,
+  ButtonSend,
+  IconButtonSend 
+} from './style';
+
 import {
   SafeAreaView,
   View,
-  TextInput,
-  Text,
-  TouchableOpacity,
   FlatList,
-  Image,
-  StyleSheet,
   Dimensions,
   Alert,
-  KeyboardAvoidingView,
   AsyncStorage
 } from 'react-native';
 
@@ -101,8 +104,8 @@ export default function Chat({ navigation }) {
         alignSelf: item.from === parseInt(userId)  ? 'flex-end' : 'flex-start',
         backgroundColor: item.from === parseInt(userId)  ? '#FEB665' : '#fc9e7e',
       }}>
-        <Text style={styles.message}> {item.message} </Text>
-        <Text style={styles.time}> {convertTime(item.time)} </Text>
+        <TextMessage> {item.message} </TextMessage>
+        <TextTime> {convertTime(item.time)} </TextTime>
       </View>
     )
   }
@@ -115,52 +118,16 @@ export default function Chat({ navigation }) {
         renderItem={renderRow}
         keyExtractor={(item, index) => index.toString()}
       />
-      <View style={styles.boxInputMessage}>
-        <TextInput
+      <ContainerInputMessage>
+        <InputMessage
           placeholder="Digite sua mensagem..."
           value={textMessage}
           onChangeText={(text) => handleChange(text)}
-          style={styles.inputMessage}
         />
-        <TouchableOpacity onPress={() => sendMessage()} style={styles.buttonSend}>
-          <Image source={require("../../../assets/send-button.png")} style={styles.iconButtonSend} />
-        </TouchableOpacity>
-      </View>
+        <ButtonSend onPress={() => sendMessage()} >
+          <IconButtonSend source={require("../../../assets/send-button.png")} />
+        </ButtonSend>
+      </ContainerInputMessage>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  message: {
-    color: '#fff',
-    padding: 7,
-    fontSize: 16
-  },
-  time: {
-    color: '#eee',
-    padding: 3,
-    fontSize: 12
-  },
-  boxInputMessage: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 10,
-  },
-  inputMessage: {
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#CCC",
-    width: "85%",
-    borderRadius: 5,
-    justifyContent: 'flex-end'
-  },
-  buttonSend: {
-    marginLeft: 10
-  },
-  iconButtonSend: {
-    width: 30,
-    height: 30,
-    marginLeft: 5
-  }
-
-})
