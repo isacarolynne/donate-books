@@ -27,8 +27,6 @@ export default function SingUp({ navigation }) {
   const [username, setUsername] = useState('')
 
   async function handleSingUp() {
-    setLoading(true);
-
     const data = {
       email,
       name,

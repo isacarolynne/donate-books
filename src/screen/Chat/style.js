@@ -4,7 +4,6 @@ import { Platform } from 'react-native';
 export const ContainerKeyboard = styled.KeyboardAvoidingView.attrs({
     behavior: Platform.OS === 'ios' ? 'padding' : 'height',
   })`
-  alignItems: center;
   justifyContent: center;
 
 `

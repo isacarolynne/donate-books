@@ -14,14 +14,7 @@ import { ContainerView, ItemContacts, TextContact } from './style';
 
 import firebase from '../../../firebase';
 
-
-export default function ChatList({ navigation }) {
-
-  ChatList.navigationOptions = () => {
-    return {
-        title: 'Contacts',
-    }
-  }
+function ChatList({ navigation }) {
 
   const [interests, setInterests] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -54,7 +47,6 @@ export default function ChatList({ navigation }) {
     fetchData();
   }, []);
 
-
   function renderRow ({ item }) {
     return (
       <ItemContacts onPress={() => navigation.navigate('Chat', item)}>
@@ -67,15 +59,23 @@ export default function ChatList({ navigation }) {
     <SafeAreaView>
       <ContainerView>
         <ActivityIndicator 
+          style={{ padding: 10 }}
           color={'#FEB665'}
           animating={loading}
         />
       </ContainerView>
       <FlatList
         data={interests}
+        style={{ marginTop: 5 }}
         renderItem={renderRow}
         keyExtractor={(item, index) => index.toString()}
       />
     </SafeAreaView>
   )
 }
+
+ChatList.navigationOptions = () => ({
+  title: 'Contatos'
+});
+
+export default ChatList;

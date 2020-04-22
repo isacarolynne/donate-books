@@ -3,13 +3,15 @@ import styled from 'styled-components/native';
 export const ContainerView = styled.View`
     flex: 1;
     justifyContent: center;
-    alignItems: center;
 `;
 
 export const ItemContacts = styled.TouchableOpacity`
+    backgroundColor: #FEB665;
+    margin: 2px;
+    borderRadius: 5px;
     padding: 10px;
-    borderBottomColor: #FEB665;
-    borderBottomWidth: 1px;
+    border: 0.5px solid #808080;
+    boxShadow: 5px 10px;
 `;
 
 export const TextContact = styled.Text`

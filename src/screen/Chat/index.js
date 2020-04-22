@@ -3,6 +3,7 @@ import firebasePackage from 'firebase';
 import firebase from '../../../firebase';
 
 import { 
+  ContainerKeyboard,
   TextMessage, 
   TextTime, 
   ContainerInputMessage, 
@@ -20,7 +21,11 @@ import {
   AsyncStorage
 } from 'react-native';
 
-export default function Chat({ navigation }) {
+export const navigationOptions = ({ navigation }) => ({
+  title: navigation.getParam('nameDonor'),
+})
+
+function Chat({ navigation }) {
 
   const [messageList, setMessageList] = useState([]);
   const [textMessage, setTextMessage] = useState('');
@@ -29,7 +34,6 @@ export default function Chat({ navigation }) {
   const [donorId, setDonorId] = useState(0);
   const [nameDonor, setNameDonor] = useState('');
   const { height } = Dimensions.get('window');
-
 
   useEffect(() => {
     let messages = [];
@@ -102,7 +106,7 @@ export default function Chat({ navigation }) {
         flexDirection: 'row',
         width: '65%',
         borderRadius: 5,
-        marginBottom: 20,
+        marginBottom: 10,
         alignSelf: item.from === parseInt(userId)  ? 'flex-end' : 'flex-start',
         backgroundColor: item.from === parseInt(userId)  ? '#FEB665' : '#fc9e7e',
       }}>
@@ -133,3 +137,5 @@ export default function Chat({ navigation }) {
     </SafeAreaView>
   );
 }
+
+export default Chat;
