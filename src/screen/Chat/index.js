@@ -36,34 +36,33 @@ function Chat({ navigation }) {
   const { height } = Dimensions.get('window');
 
   useEffect(() => {
-    let messages = [];
-
-    async function fetchData() {
-      const userId = navigation.getParam('userId');
-      const donorId = navigation.getParam('donor_id');
-      const nameDonor = navigation.getParam('nameDonor');
-  
-      setNameDonor(nameDonor);
-      setUserId(userId);
-      setDonorId(donorId);
-
-      console.log('ID DO DOADOR: ', navigation.getParam('donor_id'));
-      console.log('NOME DO DOADOR: ', navigation.getParam('nameDonor'));
-      console.log('ID DO USUARIO: ', navigation.getParam('userId'));
-
-      firebase.database().ref('messages').child(parseInt(userId)).child(parseInt(donorId))
-      .on('child_added', (value) => {
-        messages.push(value.val());
-
-        if (messages.length > 1) {
-          setMessageList(messages);
-        }
-      })
-    } 
-
     fetchData(); 
-
   }, []);
+
+  async function fetchData() {
+    let messages = [];
+    
+    const userId = navigation.getParam('userId');
+    const donorId = navigation.getParam('donor_id');
+    const nameDonor = navigation.getParam('nameDonor');
+
+    setNameDonor(nameDonor);
+    setUserId(userId);
+    setDonorId(donorId);
+
+    console.log('ID DO DOADOR: ', navigation.getParam('donor_id'));
+    console.log('NOME DO DOADOR: ', navigation.getParam('nameDonor'));
+    console.log('ID DO USUARIO: ', navigation.getParam('userId'));
+
+    firebase.database().ref('messages').child(parseInt(userId)).child(parseInt(donorId))
+    .on('child_added', (value) => {
+      messages.push(value.val());
+
+      if (messages.length > 1) {
+        setMessageList(messages);
+      }
+    })
+  } 
 
   function sendMessage() {
     if (textMessage.length > 0) {

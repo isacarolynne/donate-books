@@ -53,6 +53,7 @@ export default function Login({ navigation }) {
 
     async function donateBook(id, nameDonor, donorId) {
         const userId = await AsyncStorage.getItem('userId')
+        const nameUser = await AsyncStorage.getItem('nameUser')
         const token = await AsyncStorage.getItem('token')
 
         AsyncStorage.setItem('nameDonor', nameDonor)
@@ -74,8 +75,11 @@ export default function Login({ navigation }) {
 
             //Abrir Chat aqui
 
-            let interestId = firebase.database().ref('interests').push().key;
-            firebase.database().ref('interests/' + interestId).set({ userId: parseInt(userId), nameDonor: nameDonor, donor_id: parseInt(donorId) });
+            let keyUser = firebase.database().ref('interests').push().key;
+            firebase.database().ref('interests/' + keyUser).set({ userId: parseInt(userId), nameDonor: nameDonor, donor_id: parseInt(donorId) });
+
+            let keyDonor = firebase.database().ref('interests').push().key;
+            firebase.database().ref('interests/' + keyDonor).set({ userId: parseInt(donorId), nameDonor: nameUser, donor_id: parseInt(userId) });
 
             navigation.navigate('ChatList')
 

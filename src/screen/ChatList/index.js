@@ -18,34 +18,30 @@ function ChatList({ navigation }) {
 
   const [interests, setInterests] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [userId, setUserId] = useState('');
-  const [donorId, setDonorId] = useState('');
 
   useEffect(() => {
     setLoading(true);
-    let wishes = [];
-
-    async function fetchData() {
-      const userId = await AsyncStorage.getItem('userId')
-      const donorId = await AsyncStorage.getItem('donorId')
-
-      setUserId(userId);
-      setDonorId(donorId);
-
-      firebase.database().ref('interests').on('child_added', (value) => {
-        wishes.push(value.val())
-        
-        if (wishes.length > 1) {
-          const interestsFiltered = wishes.filter((interest) => (interest.donor_id == donorId || interest.userId == userId));
-  
-          setInterests(interestsFiltered);
-          setLoading(false);
-        }
-      });
-    }
-
+    
     fetchData();
   }, []);
+  
+  async function fetchData() {
+    let wishes = [];
+    
+    const userId = await AsyncStorage.getItem('userId')
+    const donorId = await AsyncStorage.getItem('donorId')
+
+    firebase.database().ref('interests').on('child_added', (value) => {
+      wishes.push(value.val())
+      
+      if (wishes.length > 1) {
+        const interestsFiltered = wishes.filter(interest => (interest.donor_id == donorId || interest.userId == userId));
+
+        setInterests(interestsFiltered);
+        setLoading(false);
+      }
+    });
+  }
 
   function renderRow ({ item }) {
     return (

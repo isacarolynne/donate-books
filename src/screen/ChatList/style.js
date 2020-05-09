@@ -6,11 +6,11 @@ export const ContainerView = styled.View`
 `;
 
 export const ItemContacts = styled.TouchableOpacity`
-    backgroundColor: #FEB665;
+    backgroundColor: #FDDAB2;
     margin: 2px;
     borderRadius: 5px;
     padding: 10px;
-    border: 0.5px solid #808080;
+    border: 0.5px solid #414141;
     boxShadow: 5px 10px;
 `;
 
