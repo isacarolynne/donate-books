@@ -14,6 +14,7 @@ import Chat, { navigationOptions } from './screen/Chat'
 import ChatList from './screen/ChatList'
 import NewDonate from './screen/NewDonate'
 import Profile from './screen/Profile'
+import Donations from './screen/Donations'
 
 Icon.loadFont();
 
@@ -34,7 +35,7 @@ const Routes = createAppContainer(
             }),
           },
           
-          Donation: {
+          Donate: {
             screen: NewDonate,
             navigationOptions: () => ({
               tabBarIcon: ({ focused }) => (
@@ -51,6 +52,16 @@ const Routes = createAppContainer(
               ),
             }),
           },
+
+          Donations: {
+            screen: Donations,
+            navigationOptions: () => ({
+              tabBarIcon: ({ focused }) => (
+                <Icon_FontAwesome5 name="list" size={20} color={focused ? '#fff' : '#ddd'} />
+              ),
+            }),
+          },
+
 
           Profile: {
             screen: Profile,

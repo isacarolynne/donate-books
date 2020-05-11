@@ -77,6 +77,7 @@ function Chat({ navigation }) {
       updates['messages/' + parseInt(donorId) + '/' + parseInt(userId) + '/' + msgId] = message;
       firebase.database().ref().update(updates);
       setTextMessage('');
+      fetchData();
     } else {
       Alert.alert('Error', 'No text')
     }

@@ -29,7 +29,7 @@ const Card = props => {
     } = props;
 
     return (
-        <TouchableOpacity onPress={() => handleClickCard(id, nameDonor, donorId)}>
+        <TouchableOpacity onPress={() => handleClickCard(id, nameDonor, donorId, points)}>
             <Container>
                     <ContainerLeft>
                         <Image

@@ -32,6 +32,8 @@ export default function Login({ navigation }) {
             headers: {Authorization: `Bearer ${token}`}
         })
 
+        console.log(books);
+
         setBooks(response.data)
         setBooksFilter(response.data)
     }
@@ -40,19 +42,20 @@ export default function Login({ navigation }) {
         mount()
     },[])
 
-    function handleClickCard(id, nameDonor, donorId) {
+    function handleClickCard(id, nameDonor, donorId, points) {
         Alert.alert(
             'Tem certeza que deseja esse livro?',
             undefined,
             [
                 {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                {text: 'OK', onPress: () => donateBook(id, nameDonor, donorId)},
+                {text: 'OK', onPress: () => donateBook(id, nameDonor, donorId, points)},
             ]
         )
     }
 
-    async function donateBook(id, nameDonor, donorId) {
+    async function donateBook(id, nameDonor, donorId, points) {
         const userId = await AsyncStorage.getItem('userId')
+        const credits = await AsyncStorage.getItem('credits')
         const nameUser = await AsyncStorage.getItem('nameUser')
         const token = await AsyncStorage.getItem('token')
 
@@ -67,25 +70,38 @@ export default function Login({ navigation }) {
             receiver_id: userId
         }
 
-        try {
-            const response = await api.post('/users/donations', data, {
-                headers: {Authorization: `Bearer ${token}`}
-            })
-            alert('Pronto, o livro é quase seu')
+        if (false) {
+            Alert.alert(
+                'Ops, você não tem crédito suficiente.',
+                undefined,
+            )
+        } else {
 
-            //Abrir Chat aqui
+            try {
+                const response = await Promise.all([
+                    api.post('/users/books/donations', data, {
+                        headers: {Authorization: `Bearer ${token}`}
+                    }),
+                    api.put(`/users/books/${id}`, {
+                        headers: {Authorization: `Bearer ${token}`}
+                    })
+                ])
+                alert('Pronto, o livro é quase seu')
 
-            let keyUser = firebase.database().ref('interests').push().key;
-            firebase.database().ref('interests/' + keyUser).set({ userId: parseInt(userId), nameDonor: nameDonor, donor_id: parseInt(donorId) });
+                //Abrir Chat aqui
 
-            let keyDonor = firebase.database().ref('interests').push().key;
-            firebase.database().ref('interests/' + keyDonor).set({ userId: parseInt(donorId), nameDonor: nameUser, donor_id: parseInt(userId) });
+                let keyUser = firebase.database().ref('interests').push().key;
+                firebase.database().ref('interests/' + keyUser).set({ userId: parseInt(userId), nameDonor: nameDonor, donor_id: parseInt(donorId) });
 
-            navigation.navigate('ChatList')
+                let keyDonor = firebase.database().ref('interests').push().key;
+                firebase.database().ref('interests/' + keyDonor).set({ userId: parseInt(donorId), nameDonor: nameUser, donor_id: parseInt(userId) });
 
-        }catch(e){
-            console.log(e)
-            alert('Erro, no momento o livro não pode ser doado, tente novamente')
+                navigation.navigate('ChatList')
+
+            }catch(e){
+                console.log(e)
+                alert('Erro, no momento o livro não pode ser doado, tente novamente')
+            }
         }
     }
 
@@ -113,7 +129,7 @@ export default function Login({ navigation }) {
                             id={book.id}
                             title={book.title}
                             author={book.author}
-                            nameDonor={book.user.name}
+                            nameDonor={book.user_name}
                             donorId={book.donor_id}
                             points={book.credit}
                             description={book.resume}
