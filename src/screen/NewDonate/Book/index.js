@@ -69,6 +69,7 @@ export default function Book() {
       resume,
       year,
       credit,
+      url: [capturedPhoto]
     }
 
     const userId = await AsyncStorage.getItem('userId')
