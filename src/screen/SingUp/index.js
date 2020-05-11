@@ -1,5 +1,8 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, Dimensions } from 'react-native'
 import api from '../../services/api'
+import location from '../../services/location'
+import RNPickerSelect from 'react-native-picker-select';
 
 import { 
           Title,
@@ -18,6 +21,7 @@ import {
           ContainerInsideKeyboard 
         } from './style'
 
+const { width } = Dimensions.get('window')
 
 export default function SingUp({ navigation }) {
   const [email, setEmail] = useState('')
@@ -25,6 +29,20 @@ export default function SingUp({ navigation }) {
   const [password, setPassword] = useState('')
   const [phone, setPhone] = useState('')
   const [username, setUsername] = useState('')
+  const [state, setState] = useState(undefined)
+  const [city, setCity] = useState(null)
+  const [stateList, setStateList] = useState([])
+  const [cityList, setCityList] = useState([])
+
+
+  useEffect(() => {
+    async function fetchStates(){ 
+      const {data} = await location.get('/estados')
+      const states = data.map( item => ({label: item.nome, value: item.nome, uf: item.sigla}))
+      setStateList(states)
+    }
+    fetchStates();
+  }, [])
 
   async function handleSingUp() {
     const data = {
@@ -32,7 +50,9 @@ export default function SingUp({ navigation }) {
       name,
       password,
       username,
-      phone
+      phone,
+      state,
+      city
     }
 
     try {
@@ -42,7 +62,24 @@ export default function SingUp({ navigation }) {
     }catch(e){
       alert('Erro ao registrar usuário, tente novamente')
     }
+  }
 
+  async function handleSelectState(value, index) {
+    if(!value) return
+    
+    setState(value)
+
+    const { uf } = stateList[index - 1]
+
+    const { data } = await location.get(`/estados/${uf}/municipios`)
+
+    const cities = data.map( item => ({label: item.nome, value: item.nome}))
+
+    setCityList(cities)
+  }
+
+  const props = {
+    placeholderTextColor: "#AAAA"
   }
 
   return (
@@ -57,6 +94,7 @@ export default function SingUp({ navigation }) {
                   autoCorrect={false}
                   value={email}
                   onChangeText={setEmail}
+                  {...props}
                 />
                 <Title_name 
                   placeholder= 'nome completo'
@@ -64,6 +102,7 @@ export default function SingUp({ navigation }) {
                   autoCorrect={false}
                   value={name}
                   onChangeText={setName}
+                  {...props}
                 />
                 <Title_username
                   placeholder= 'username'
@@ -71,6 +110,7 @@ export default function SingUp({ navigation }) {
                   autoCorrect={false}
                   value={username}
                   onChangeText={setUsername}
+                  {...props}
                 />
                 <Title_password
                   secureTextEntry={true}
@@ -78,6 +118,7 @@ export default function SingUp({ navigation }) {
                   keyboardType='default'
                   value={password}
                   onChangeText={setPassword}
+                  {...props}
                 />
                 <Title_phone 
                   placeholder= 'numero de celular'
@@ -85,7 +126,25 @@ export default function SingUp({ navigation }) {
                   autoCorrect={false}
                   value={phone}
                   onChangeText={setPhone}
+                  {...props}
                 />
+                <View>
+                  <RNPickerSelect
+                    style={pickerSelectStyles}
+                    placeholder={{label: 'Selecione seu Estado', value: null }}
+                    onValueChange={(value, index) => handleSelectState(value, index)}
+                    value={state}
+                    items={stateList}
+                  />
+                  <RNPickerSelect
+                    disabled={cityList.length === 0}
+                    style={pickerSelectStyles}
+                    placeholder={{label: 'Selecione sua Cidade', value: null }}
+                    onValueChange={(value) => setCity(value)}
+                    value={city}
+                    items={cityList}
+                  />
+                </View>
               </ContainerSigUp>
               <ButtomTouchableOpacity onPress={handleSingUp}>
                 <Title_text>Criar Conta</Title_text>
@@ -93,10 +152,39 @@ export default function SingUp({ navigation }) {
 
               <ContainerLogin>
                 <Title_text_login>Já possui conta?</Title_text_login>
-                <Text_login onPress={() => navigation.navigate('Login')}
-                >Entre agora</Text_login>
+                <Text_login onPress={() => navigation.navigate('Login')}>
+                  Entre agora
+                </Text_login>
               </ContainerLogin>
             </ContainerInsideKeyboard>
           </ContainerKeyboard>
   )
 }
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 18,
+    width: width*0.8,
+    height: 40,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: '#ADADAD',
+    borderRadius: 10,
+    color: '#333',
+    paddingRight: 30,
+    marginTop: 25,
+  },
+  inputAndroid: {
+    fontSize: 18,
+    width: width*0.8,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: '#ADADAD',
+    borderRadius: 10,
+    color: '#333',
+    paddingRight: 30, 
+    marginTop: 25,
+  },
+});

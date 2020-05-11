@@ -58,7 +58,7 @@ export default function Book() {
       const data = await camRef.current.takePictureAsync()
       setCapturedPhoto(data.uri)
       setOpen(true)
-      console.log(setOpen(true))
+
     }
   }
 
