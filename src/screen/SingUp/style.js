@@ -10,7 +10,7 @@ export const ContainerSigUp = styled.View`
     width: 100%;
     alignItems: center;
     justifyContent: center;
-    paddingBottom:40px;
+    paddingBottom:20px;
 
 `
 
@@ -24,7 +24,7 @@ export const Title_email = styled.TextInput`
     paddingLeft: 10px;
     paddingRight: 10px;
     alignItems: center;
-    marginTop:30px;
+    marginTop:25px;
 
 `
 export const Title_name = styled(Title_email)`
