@@ -41,7 +41,7 @@ export default function Donations() {
     setLoading(true);
 
     try {
-      const { status, data } = await api.get(`/users/${userId}/donations`, {
+      const { status, data } = await api.get(`/users/${userId}/books/donations`, {
         headers: {Authorization: `Bearer ${token}`}
       });
   
@@ -65,12 +65,10 @@ export default function Donations() {
 
     try {
       const { status, data } = await Promise.all([
-        api.get(`/users/books/donations/${donation_id}`,  {
+        api.delete(`/users/books/donations/${donation_id}`,  {
           headers: {Authorization: `Bearer ${token}`}
         }),
-        api.put(`/users/books/${book_id}`, {
-          headers: {Authorization: `Bearer ${token}`}
-        })
+        api.put(`/users/books/${book_id}`)
       ]);
   
       if (status === 200) {
@@ -104,9 +102,7 @@ export default function Donations() {
         api.put(`/users/${donor_id}/books/donations/${donation_id}`, dataSend, {
           headers: {Authorization: `Bearer ${token}`}
         }),
-        api.put(`/users/books/${book_id}/donations`, {
-          headers: {Authorization: `Bearer ${token}`}
-        })
+        api.put(`/users/books/${book_id}/donations`)
       ])
   
       if (status === 200) {
@@ -157,6 +153,7 @@ export default function Donations() {
       ) : (
         <FlatList
           data={userDonations}
+          style={{ marginBottom: 20 }}
           renderItem={({ item }) => renderItem(item)}
           keyExtractor={item => item.donation_id}
         />

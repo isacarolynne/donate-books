@@ -82,9 +82,7 @@ export default function Login({ navigation }) {
                     api.post('/users/books/donations', data, {
                         headers: {Authorization: `Bearer ${token}`}
                     }),
-                    api.put(`/users/books/${id}`, {
-                        headers: {Authorization: `Bearer ${token}`}
-                    })
+                    api.put(`/users/books/${id}`)
                 ])
                 alert('Pronto, o livro é quase seu')
 

@@ -22,7 +22,7 @@ export default function Profile({ navigation }) {
     setLoading(true);
 
     try {
-      const { status, data } = await api.get(`/users/${userId}/donations`, {
+      const { status, data } = await api.get(`/users/${userId}/books/donations`, {
         headers: {Authorization: `Bearer ${token}`}
       });
   
