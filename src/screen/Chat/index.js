@@ -2,59 +2,67 @@ import React, { useState, useEffect } from 'react';
 import firebasePackage from 'firebase';
 import firebase from '../../../firebase';
 
+import { 
+  ContainerKeyboard,
+  TextMessage, 
+  TextTime, 
+  ContainerInputMessage, 
+  InputMessage,
+  ButtonSend,
+  IconButtonSend 
+} from './style';
+
 import {
   SafeAreaView,
   View,
-  TextInput,
-  Text,
-  TouchableOpacity,
   FlatList,
-  Image,
-  StyleSheet,
   Dimensions,
   Alert,
-  KeyboardAvoidingView,
   AsyncStorage
 } from 'react-native';
 
-export default function Chat({ navigation }) {
+export const navigationOptions = ({ navigation }) => ({
+  title: navigation.getParam('nameDonor'),
+})
+
+function Chat({ navigation }) {
 
   const [messageList, setMessageList] = useState([]);
   const [textMessage, setTextMessage] = useState('');
   const [interests, setInterests] = useState([]);
-  const [userId, setUserId] = useState('');
-  const [donorId, setDonorId] = useState('');
+  const [userId, setUserId] = useState(0);
+  const [donorId, setDonorId] = useState(0);
   const [nameDonor, setNameDonor] = useState('');
   const { height } = Dimensions.get('window');
 
-
-  
-
   useEffect(() => {
-    let messages = [];
-
-    async function fetchDate() {
-      const userId = await AsyncStorage.getItem('userId');
-      const donorId = await AsyncStorage.getItem('donorId');
-      const nameDonor = await AsyncStorage.getItem('nameDonor')
-  
-      setNameDonor(nameDonor);
-      setUserId(userId);
-      setDonorId(donorId);
-
-      firebase.database().ref('messages').child(parseInt(userId)).child(parseInt(donorId))
-      .on('child_added', (value) => {
-        messages.push(value.val());
-
-        if (messages.length > 1) {
-          setMessageList(messages);
-        }
-      })
-    } 
-
-    fetchDate(); 
-
+    fetchData(); 
   }, []);
+
+  async function fetchData() {
+    let messages = [];
+    
+    const userId = navigation.getParam('userId');
+    const donorId = navigation.getParam('donor_id');
+    const nameDonor = navigation.getParam('nameDonor');
+
+    setNameDonor(nameDonor);
+    setUserId(userId);
+    setDonorId(donorId);
+
+    console.log('ID DO DOADOR: ', navigation.getParam('donor_id'));
+    console.log('NOME DO DOADOR: ', navigation.getParam('nameDonor'));
+    console.log('ID DO USUARIO: ', navigation.getParam('userId'));
+
+    firebase.database().ref('messages').child(parseInt(userId)).child(parseInt(donorId))
+    .on('child_added', (value) => {
+      messages.push(value.val());
+
+      if (messages.length > 1) {
+        setMessageList(messages);
+      }
+    })
+  } 
 
   function sendMessage() {
     if (textMessage.length > 0) {
@@ -97,12 +105,12 @@ export default function Chat({ navigation }) {
         flexDirection: 'row',
         width: '65%',
         borderRadius: 5,
-        marginBottom: 20,
+        marginBottom: 10,
         alignSelf: item.from === parseInt(userId)  ? 'flex-end' : 'flex-start',
         backgroundColor: item.from === parseInt(userId)  ? '#FEB665' : '#fc9e7e',
       }}>
-        <Text style={styles.message}> {item.message} </Text>
-        <Text style={styles.time}> {convertTime(item.time)} </Text>
+        <TextMessage> {item.message} </TextMessage>
+        <TextTime> {convertTime(item.time)} </TextTime>
       </View>
     )
   }
@@ -115,52 +123,18 @@ export default function Chat({ navigation }) {
         renderItem={renderRow}
         keyExtractor={(item, index) => index.toString()}
       />
-      <View style={styles.boxInputMessage}>
-        <TextInput
+      <ContainerInputMessage>
+        <InputMessage
           placeholder="Digite sua mensagem..."
           value={textMessage}
           onChangeText={(text) => handleChange(text)}
-          style={styles.inputMessage}
         />
-        <TouchableOpacity onPress={() => sendMessage()} style={styles.buttonSend}>
-          <Image source={require("../../../assets/send-button.png")} style={styles.iconButtonSend} />
-        </TouchableOpacity>
-      </View>
+        <ButtonSend onPress={() => sendMessage()} >
+          <IconButtonSend source={require("../../../assets/send-button.png")} />
+        </ButtonSend>
+      </ContainerInputMessage>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  message: {
-    color: '#fff',
-    padding: 7,
-    fontSize: 16
-  },
-  time: {
-    color: '#eee',
-    padding: 3,
-    fontSize: 12
-  },
-  boxInputMessage: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 10,
-  },
-  inputMessage: {
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#CCC",
-    width: "85%",
-    borderRadius: 5,
-    justifyContent: 'flex-end'
-  },
-  buttonSend: {
-    marginLeft: 10
-  },
-  iconButtonSend: {
-    width: 30,
-    height: 30,
-    marginLeft: 5
-  }
-
-})
+export default Chat;

@@ -10,14 +10,14 @@ import Icon_Octicons from 'react-native-vector-icons/Octicons';
 import Login from './screen/Login'
 import SingUp from './screen/SingUp'
 import Home from './screen/Home'
-import Chat from './screen/Chat'
+import Chat, { navigationOptions } from './screen/Chat'
 import ChatList from './screen/ChatList'
 import NewDonate from './screen/NewDonate'
 import Profile from './screen/Profile'
 
 Icon.loadFont();
 
-const ChatStack = createStackNavigator({ ChatList, Chat });
+const ChatStack = createStackNavigator({ ChatList, Chat: { screen: Chat, navigationOptions } });
 
 const Routes = createAppContainer(
   createSwitchNavigator(

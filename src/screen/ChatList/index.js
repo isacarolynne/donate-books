@@ -9,71 +9,60 @@ import {
   ActivityIndicator, 
   AsyncStorage 
 } from 'react-native';
+
+import { ContainerView, ItemContacts, TextContact } from './style';
+
 import firebase from '../../../firebase';
 
-
-
-export default function ChatList({ navigation }) {
-
-  ChatList.navigationOptions = () => {
-    return {
-        title: 'Contacts',
-    }
-  }
+function ChatList({ navigation }) {
 
   const [interests, setInterests] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [userId, setUserId] = useState('');
-  const [donorId, setDonorId] = useState('');
 
   useEffect(() => {
     setLoading(true);
-    let wishes = [];
-
-    async function fetchDate() {
-      const userId = await AsyncStorage.getItem('userId')
-      const donorId = await AsyncStorage.getItem('donorId')
-
-      setUserId(userId);
-      setDonorId(donorId);
-
-      firebase.database().ref('interests').on('child_added', (value) => {
-        wishes.push(value.val())
-        
-        if (wishes.length > 1) {
-          const interestsFiltered = wishes.filter((interest) => (interest.donor_id == donorId || interest.userId == userId));
-  
-          setInterests(interestsFiltered);
-          setLoading(false);
-        }
-      });
-    }
-
-    fetchDate();
+    
+    fetchData();
   }, []);
+  
+  async function fetchData() {
+    let wishes = [];
+    
+    const userId = await AsyncStorage.getItem('userId')
+    const donorId = await AsyncStorage.getItem('donorId')
 
+    firebase.database().ref('interests').on('child_added', (value) => {
+      wishes.push(value.val())
+      
+      if (wishes.length > 1) {
+        const interestsFiltered = wishes.filter(interest => (interest.donor_id == donorId || interest.userId == userId));
+
+        setInterests(interestsFiltered);
+        setLoading(false);
+      }
+    });
+  }
 
   function renderRow ({ item }) {
     return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Chat', item)}
-        style={styles.listContacts}>
-
-        <Text style={styles.textContact}>{item.nameDonor}</Text>
-      </TouchableOpacity>
+      <ItemContacts onPress={() => navigation.navigate('Chat', item)}>
+        <TextContact>{item.nameDonor}</TextContact>
+      </ItemContacts>
     )
   }
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
+      <ContainerView>
         <ActivityIndicator 
+          style={{ padding: 10 }}
           color={'#FEB665'}
           animating={loading}
         />
-      </View>
+      </ContainerView>
       <FlatList
         data={interests}
+        style={{ marginTop: 5 }}
         renderItem={renderRow}
         keyExtractor={(item, index) => index.toString()}
       />
@@ -81,17 +70,8 @@ export default function ChatList({ navigation }) {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center"
-  },
-  listContacts: {
-    padding: 10,
-    borderBottomColor: '#FEB665',
-    borderBottomWidth: 1,
-  },
-  textContact: {
-    fontSize: 18,
-  }
-})
+ChatList.navigationOptions = () => ({
+  title: 'Contatos'
+});
+
+export default ChatList;

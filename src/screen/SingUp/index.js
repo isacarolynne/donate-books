@@ -42,8 +42,6 @@ export default function SingUp({ navigation }) {
   }, [])
 
   async function handleSingUp() {
-    setLoading(true);
-
     const data = {
       email,
       name,
