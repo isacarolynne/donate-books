@@ -19,6 +19,7 @@ export const ContainerSearch = styled.View`
     borderRadius: 12px;
     width: 82%;
     height:8%;
+    marginTop: 20px;
     borderColor:#fff
 `
 export const Search_text = styled.TextInput`

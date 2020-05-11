@@ -12,14 +12,17 @@ export default function Profile({ navigation }) {
   const [totalPending, setTotalPending] = useState(0);
   const [totalReceivedPending, setTotalReceivedPending] = useState(0);
   const [totalReceivedCompleted, setTotalReceivedCompleted] = useState(0);
+  const [credits, setCredits] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     const nameUser = await AsyncStorage.getItem('nameUser'); 
     const userId = await AsyncStorage.getItem('userId');
     const token = await AsyncStorage.getItem('token');
+    const creditsUser = await AsyncStorage.getItem('credits');
     setNameUser(nameUser);
     setLoading(true);
+    setCredits(creditsUser);
 
     try {
       const { status, data } = await api.get(`/users/${userId}/books/donations`, {
@@ -27,7 +30,6 @@ export default function Profile({ navigation }) {
       });
   
       if (status === 200) {
-        console.log('chegou aqui', data)
         setTotalCompleted(data.total_completed);
         setTotalPending(data.total_pending);
         setTotalReceivedCompleted(data.total_received_completed);
@@ -63,6 +65,10 @@ export default function Profile({ navigation }) {
       </View>
       <View style={{ marginTop: 1 }}>
         <View style={{ backgroundColor: '#FEB665', borderRadius: 15, padding: 25,  }}>
+          <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+            <Icon name="loyalty" size={18} color="#000" style={{ marginRight: 5 }}/>
+            <Text style={styles.textProfile}>Créditos disponíveis: {credits}</Text>
+          </View>
           <View style={{ flexDirection: 'row', marginBottom: 5 }}>
             <Icon name="favorite" size={18} color="#000" style={{ marginRight: 5 }}/>
             <Text style={styles.textProfile}>Doações concluídas: {totalCompleted}</Text>

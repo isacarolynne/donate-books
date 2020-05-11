@@ -64,16 +64,16 @@ export default function Donations() {
     const { donation_id, book_id } = donation;
 
     try {
-      const { status, data } = await Promise.all([
+      const response = await Promise.all([
         api.delete(`/users/books/donations/${donation_id}`,  {
           headers: {Authorization: `Bearer ${token}`}
         }),
         api.put(`/users/books/${book_id}`)
       ]);
   
-      if (status === 200) {
+      if (response[0].status === 200) {
         Alert.alert(
-          `${data[0].message}`,
+          `${response[0].data.message}`,
           undefined,
         )
         fetchData();
@@ -98,16 +98,16 @@ export default function Donations() {
     }
 
     try {
-      const { status, data } = await Promise.all([
+      const response = await Promise.all([
         api.put(`/users/${donor_id}/books/donations/${donation_id}`, dataSend, {
           headers: {Authorization: `Bearer ${token}`}
         }),
         api.put(`/users/books/${book_id}/donations`)
       ])
-  
-      if (status === 200) {
+
+      if (response[0].status === 200) {
         Alert.alert(
-          `${data[0].message}`,
+          `${response[0].data.message}`,
           undefined,
         )
         fetchData();

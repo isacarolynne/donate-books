@@ -4,7 +4,7 @@ import { Text, Alert } from 'react-native';
 import moment from 'moment'
 import MockData from './Card/mock_data.js';
 import api from '../../services/api';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, View } from 'react-native';
 import user from '../../../assets/user.png'
 import firebase from '../../../firebase';
 
@@ -22,11 +22,13 @@ moment.locale('pt-BR')
 export default function Login({ navigation }) {
     const [books, setBooks] = useState([])
     const [booksFilter, setBooksFilter] = useState([])
+    const [credits, setCredits] = useState(0);
 
 
     async function mount(){
         const userId = await AsyncStorage.getItem('userId')
         const token = await AsyncStorage.getItem('token')
+        const creditsUser = await AsyncStorage.getItem('credits')
 
         const response = await api.get(`/users/${userId}/books`, {
             headers: {Authorization: `Bearer ${token}`}
@@ -36,6 +38,7 @@ export default function Login({ navigation }) {
 
         setBooks(response.data)
         setBooksFilter(response.data)
+        setCredits(creditsUser);
     }
 
     useEffect(() => {
@@ -55,7 +58,6 @@ export default function Login({ navigation }) {
 
     async function donateBook(id, nameDonor, donorId, points) {
         const userId = await AsyncStorage.getItem('userId')
-        const credits = await AsyncStorage.getItem('credits')
         const nameUser = await AsyncStorage.getItem('nameUser')
         const token = await AsyncStorage.getItem('token')
 
@@ -70,7 +72,7 @@ export default function Login({ navigation }) {
             receiver_id: userId
         }
 
-        if (false) {
+        if (points > credits) {
             Alert.alert(
                 'Ops, você não tem crédito suficiente.',
                 undefined,
