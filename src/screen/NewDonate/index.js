@@ -9,12 +9,16 @@ import {
 } from './style'
 
 export default function NewDonate() {
+  const [item, setItem] = useState(null) 
 
-
+  function handleDonate(item) {
+    setItem(item)
+  }
+  
   return (
     <ScrollViewNewDonate>
       <ContainerNewDonate>
-          <Book/>
+          {item ? <Book item={item} handleDonate={handleDonate}/> : <Donation handleDonate={handleDonate}/>}
       </ContainerNewDonate>
     </ScrollViewNewDonate>
   );

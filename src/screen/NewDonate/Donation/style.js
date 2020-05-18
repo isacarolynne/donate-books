@@ -62,3 +62,26 @@ export const Title_text = styled.Text`
     fontSize:20px;
     borderRadius: 2px;
 `
+export const ContainerSearch = styled.View`
+    flexDirection: row;
+    alignItems: center;
+    justifyContent: center;
+    background: #fff;
+    borderWidth:1px;
+    borderRadius: 12px;
+    width: 85%;
+    height: 50px;
+    marginTop: 20px;
+    borderColor:#fff;
+    borderWidth: 1px;
+    borderColor: #bbb;
+`
+export const Search_text = styled.TextInput`
+    fontSize:20px;
+    width: 82%;
+    height:80%;
+    borderRadius: 10px;
+    alignItems: center;
+    marginRight:8px
+    marginLeft:8px
+`

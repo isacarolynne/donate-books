@@ -23,12 +23,9 @@ import {
 } from './style'
 
 
-export default function Book() {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [resume, setResume] = useState('')
-  const [year, setYear] = useState('')
+export default function Book(props) {
   const [credit, setCredit] = useState('')
+  const [resume, setResume] = useState('')
   
   const [type, setType] = useState(Camera.Constants.Type.back)
   const [hasPermission, setHaspermission] = useState(null)
@@ -42,7 +39,6 @@ export default function Book() {
       const { status } = await Camera.requestPermissionsAsync()
       setHaspermission(status === 'granted')
     })()
-
   }, [])
 
   if (hasPermission === null) {
@@ -58,14 +54,15 @@ export default function Book() {
       const data = await camRef.current.takePictureAsync()
       setCapturedPhoto(data.uri)
       setOpen(true)
-
     }
   }
 
   async function handleDonate() {
+    const { item } = props
+    const year = new Date(item.publishedDate).getFullYear().toString()
     const data = {
-      title,
-      author,
+      title: item.title,
+      author: item.authors && item.authors.join(', '),
       resume,
       year,
       credit,
@@ -76,12 +73,13 @@ export default function Book() {
     const token = await AsyncStorage.getItem('token')
 
     try {
-      const responde = await api.post(`/users/${userId}/books`, data, {
+      await api.post(`/users/${userId}/books`, data, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
       alert('Livro registrado com sucesso!')
 
+      setOpen(false)
     } catch (e) {
       console.log(e)
       alert('Erro ao registrar livro, tente novamente.')
@@ -91,7 +89,7 @@ export default function Book() {
   return (
     <ViewCamera >
         <Camera
-          style={{flex:1,height:400, width:'96%', justifyContent: 'center',alignSelf: 'center'}}
+          style={{flex:1,height:400, width:'96%', justifyContent: 'center', alignSelf: 'center'}}
           type={type}
           ref={camRef}
         >
@@ -110,12 +108,13 @@ export default function Book() {
           </ViewCameraTextPosition>
         </Camera>
         <CameraTouchableOpacity 
-
           onPress={(takePicture)}
         >
           <FontAwesome name="camera" size={23} color="#fff" />
         </CameraTouchableOpacity>
-
+        <ButtomTouchableOpacity style={{display: 'flex', alignSelf: 'center'}} onPress={() => props.handleDonate(null)}>
+          <Title_text>Voltar</Title_text>
+        </ButtomTouchableOpacity>
         {
           capturedPhoto &&
           <ModalPicture
@@ -123,8 +122,7 @@ export default function Book() {
           transparent={false}
           visible={open}
           >
-          <ContainerKeyboard behavior="padding" enabled
-          >
+          <ContainerKeyboard behavior="padding" enabled>
             <ContainerInsideKeyboard>
               <ViewPicture >
                 <ViewTouchableOpacity  onPress={ () => setOpen(false) }>
@@ -135,51 +133,54 @@ export default function Book() {
                 source={{uri: capturedPhoto}}
                 />
               </ViewPicture>
-            <Title>Livro</Title>
-            <ContainerBook>
-              <Input
-                placeholder='título'
-                autoCapitalize='none'
-                autoCorrect={false}
-                value={title}
-                onChangeText={setTitle}
-              />
-              <Input
-                placeholder='autor'
-                autoCapitalize='none'
-                autoCorrect={false}
-                value={author}
-                onChangeText={setAuthor}
-              />
-              <InputTextArea
-                placeholder='resumo'
-                autoCapitalize='none'
-                autoCorrect={false}
-                multiline={true}
-                numberOfLines={4}
-                value={resume}
-                onChangeText={setResume}
-              />
-              <Input
-                placeholder='ano de lançamento'
-                autoCapitalize='none'
-                keyboardType='numeric'
-                autoCorrect={false}
-                value={year}
-                onChangeText={setYear}
-              />
-              <Input
-                placeholder='valor'
-                autoCapitalize='none'
-                keyboardType='numeric'
-                autoCorrect={false}
-                value={credit}
-                onChangeText={setCredit}
-              />
-              <ButtomTouchableOpacity onPress={handleDonate}>
-                <Title_text>Finalizar</Title_text>
-              </ButtomTouchableOpacity>
-            </ContainerBook>
+              <View style={{ flex: 1, alignItems: 'center'}}>
+              </View>
+                <Title>Livro</Title>
+              <ContainerBook>
+                <Text style={{ marginTop: 10, fontSize: 16, fontWeight: '500'}}>{props.item.title}</Text>
+                {/* <Input
+                  placeholder='título'
+                  autoCapitalize='none'
+                  autoCorrect={false}
+                  value={title}
+                  onChangeText={setTitle}
+                />
+                <Input
+                  placeholder='autor'
+                  autoCapitalize='none'
+                  autoCorrect={false}
+                  value={author}
+                  onChangeText={setAuthor}
+                />
+                <Input
+                  placeholder='ano de lançamento'
+                  autoCapitalize='none'
+                  keyboardType='numeric'
+                  autoCorrect={false}
+                  value={year}
+                  onChangeText={setYear}
+                /> */}
+                <InputTextArea
+                  placeholder='observação'
+                  autoCapitalize='none'
+                  autoCorrect={false}
+                  multiline={true}
+                  numberOfLines={4}
+                  value={resume}
+                  onChangeText={setResume}
+                />
+                <Input
+                  placeholder='valor'
+                  autoCapitalize='none'
+                  keyboardType='numeric'
+                  autoCorrect={false}
+                  value={credit}
+                  onChangeText={setCredit}
+                />
+                 <ButtomTouchableOpacity onPress={handleDonate}>
+                  <Title_text>Finalizar</Title_text>
+                </ButtomTouchableOpacity>
+              </ContainerBook>
             </ContainerInsideKeyboard>
           </ContainerKeyboard>
           </ModalPicture>

@@ -34,8 +34,6 @@ export default function Login({ navigation }) {
             headers: {Authorization: `Bearer ${token}`}
         })
 
-        console.log(books);
-
         setBooks(response.data)
         setBooksFilter(response.data)
         setCredits(creditsUser);

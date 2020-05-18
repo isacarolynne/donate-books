@@ -51,7 +51,7 @@ export const InputTextArea = styled(Input) `
 
 export const ButtomTouchableOpacity = styled.TouchableOpacity`
     width: 40%;
-    height: 7%;
+    height: 40px;
     backgroundColor: #FEB665;
     alignItems: center;
     justifyContent: center;
