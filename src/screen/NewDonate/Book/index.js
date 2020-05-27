@@ -3,6 +3,7 @@ import api from "../../../services/api";
 import { AsyncStorage, View, Text, Image } from "react-native";
 import { Camera } from "expo-camera";
 import { FontAwesome } from "@expo/vector-icons";
+import userAssets from "../../../../assets/user.png";
 import {
   Title,
   Title_text,
@@ -57,6 +58,7 @@ export default function Book(props) {
 
   async function handleDonate() {
     const { item } = props;
+
     const year = new Date(item.publishedDate).getFullYear().toString();
     const data = {
       title: item.title,
@@ -64,13 +66,20 @@ export default function Book(props) {
       resume,
       year,
       credit,
-      url: [capturedPhoto],
+      url: item && item.imageLinks.thumbnail ? [item.imageLinks.thumbnail] : [],
     };
 
     const userId = await AsyncStorage.getItem("userId");
     const token = await AsyncStorage.getItem("token");
 
     try {
+      if (!data.title || !data.author)
+        throw new Error(
+          "Livro sem título ou sem nome do autor. Tente outro livro"
+        );
+      if (!data.resume)
+        throw new Error("Você precisa deixar uma observação sobre o livro.");
+
       await api.post(`/users/${userId}/books`, data, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -80,7 +89,7 @@ export default function Book(props) {
       setOpen(false);
     } catch (e) {
       console.log(e);
-      alert("Erro ao registrar livro, tente novamente.");
+      alert(e);
     }
   }
 
@@ -126,7 +135,7 @@ export default function Book(props) {
             <ContainerInsideKeyboard>
               <ViewPicture>
                 <ViewTouchableOpacity onPress={() => setOpen(false)}>
-                  <FontAwesome name="window-close" size={50} color="#ff0000" />
+                  <FontAwesome name="window-close" size={35} color="#ff0000" />
                 </ViewTouchableOpacity>
                 <Image
                   style={{
@@ -143,7 +152,14 @@ export default function Book(props) {
               <Title>Livro</Title>
               <ContainerBook>
                 <Text
-                  style={{ marginTop: 10, fontSize: 16, fontWeight: "500" }}
+                  style={{
+                    marginTop: 10,
+                    marginLeft: 10,
+                    marginRight: 10,
+                    textAlign: "center",
+                    fontSize: 15,
+                    fontWeight: "500",
+                  }}
                 >
                   {props.item.title}
                 </Text>
