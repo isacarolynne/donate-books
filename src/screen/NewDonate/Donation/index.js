@@ -85,7 +85,7 @@ export default function Donate(props) {
   return (
     <ContainerKeyboard behavior="padding" enabled>
       <ContainerInsideKeyboard>
-        <Title>Doação</Title>
+        <Title style={{marginTop: 25}}>Doação</Title>
           <ContainerBook>
             <ContainerSearch>
                 <Icon name="magnifying-glass" size={24} color="#dcdcdc" />

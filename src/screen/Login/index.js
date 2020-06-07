@@ -42,6 +42,7 @@ export default function Login({ navigation }) {
       AsyncStorage.setItem('nameUser', String(response.data.user.name))
       AsyncStorage.setItem('credits', String(response.data.user.credits))
       
+      console.log(response)
       alert('Login efetuado com sucesso!')
 
       navigation.navigate('Home')

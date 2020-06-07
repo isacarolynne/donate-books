@@ -80,6 +80,7 @@ export default function Book(props) {
       alert('Livro registrado com sucesso!')
 
       setOpen(false)
+      props.handleDonate(null)
     } catch (e) {
       console.log(e)
       alert('Erro ao registrar livro, tente novamente.')
