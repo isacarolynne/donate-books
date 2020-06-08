@@ -90,6 +90,7 @@ export default function Login({ navigation }) {
         ]);
         alert("Pronto, o livro é quase seu");
 
+        mount();
         //Abrir Chat aqui
 
         let keyUser = firebase.database().ref("interests").push().key;

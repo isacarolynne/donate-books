@@ -7,6 +7,8 @@ import { bindActionCreators } from "redux";
 import * as donationsDispatchers from "./redux/profile.dispatchers";
 import * as profileDispatchers from '../Donations/redux/donations.dispatchers';
 
+import _ from 'lodash';
+
 import {
   KeyboardAvoidingView,
   View,
@@ -59,7 +61,7 @@ function Profile(props) {
         <Text style={{ fontSize: 22 }}>{dataUser && dataUser.name}</Text>
         <Text style={{ paddingBottom: 30, fontSize: 12, textAlign: 'center' }}>
           <Octicons name="star" size={12} color="#F1C40E" /> 
-          {' '}{dataUser && dataUser.points.toFixed(2)}
+          {' '}{!_.isEmpty(dataUser) && dataUser.points.toFixed(2)}
         </Text>
       </View>
       <View style={{ marginTop: 1 }}>

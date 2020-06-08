@@ -18,8 +18,6 @@ function ChatList({ navigation }) {
   const [interests, setInterests] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  console.log(navigation.getParam("titleBook"));
-
   useEffect(() => {
     setLoading(true);
 
