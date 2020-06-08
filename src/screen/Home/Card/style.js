@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
     width: 96%;
-    height: 130px;
+    height: 160px;
     display: flex;
     flexFlow: row nowrap;
     justifyContent: space-around;
@@ -25,7 +25,7 @@ export const ContainerLeft = styled.View`
 export const ContainerRight = styled.View`
     width: 60%;
     height: 100%;
-    flexFlow: column nowrap;
+    flexFlow: row wrap;
     alignItems: center;
     justifyContent: center;
     borderRadius: 15px;
@@ -33,17 +33,16 @@ export const ContainerRight = styled.View`
 
 export const ContainerRightUpside = styled.View`
     width: 100%;
-    height: 45%;
-    display: flex;
-    flexFlow: row nowrap;
-    justifyContent: space-between;
+    height: 75%;
+    flexFlow: column nowrap;
+    justifyContent: space-evenly;
     borderRadius: 5px;
 
 `;
 
 export const ContainerRightDownside = styled.View`
     width: 100%;
-    height: 50%;
+    height: 20%;
     display: flex;
     flexFlow: column nowrap;
     justifyContent: flex-start;
@@ -53,7 +52,7 @@ export const ContainerRightDownside = styled.View`
 
 export const Title = styled.Text`
     fontWeight: bold;
-    fontSize: 16px
+    fontSize: 18px
 `;
 
 export const Autor = styled.Text`
@@ -61,10 +60,10 @@ export const Autor = styled.Text`
 `;
 
 export const Points = styled.Text`
-    fontSize: 13px
+    fontSize: 11px
 `;
 
 export const Description = styled.Text`
     fontSize:12px
-
+    marginBottom:-90px
 `;

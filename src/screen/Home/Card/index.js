@@ -31,25 +31,33 @@ const Card = props => {
     return (
         <TouchableOpacity onPress={() => handleClickCard(id, nameDonor, donorId, points)}>
             <Container>
-                    <ContainerLeft>
-                        <Image
-                            style={{ display: 'flex', flex: 1, height: 50, width: 100}}
-                            source={profilePicture}
-                        />
-                    </ContainerLeft>
-                    <ContainerRight>
-                        <ContainerRightUpside>
-                            <View>
-                                <Title>{title}</Title>
-                                <Autor>{author}</Autor>
-                                <Points>$ {points}</Points>
-                            </View>
-                        </ContainerRightUpside>
+                <ContainerLeft>
+                    <Image
+                        style={{ display: 'flex', flex: 1, height: 50, width: 100 }}
+                        source={profilePicture}
+                    />
+                </ContainerLeft>
+                <ContainerRight>
+                    <ContainerRightUpside>
+                        <View style={{ backgroundColor: '' }}>
+                            <Title>{title}</Title>
+                        </View>
 
-                        <ContainerRightDownside>
+                        <View style={{ backgroundColor: '' }}>
+                            <Autor>{author}</Autor>
+                        </View>
+
+                        <View style={{ backgroundColor: '' }}>
+                            <Points>$ {points}</Points>
+                        </View>
+                    </ContainerRightUpside>
+
+                    <ContainerRightDownside>
+                        <View style={{ backgroundColor: '' }}>
                             <Description numberOfLines={4}>{description}</Description>
-                        </ContainerRightDownside>
-                    </ContainerRight>
+                        </View>
+                    </ContainerRightDownside>
+                </ContainerRight>
             </Container>
         </TouchableOpacity>
     );
