@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, Text, View, TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import {
   Container,
   ContainerLeft,
@@ -44,7 +45,20 @@ const Card = (props) => {
             <View>
               <Title>{title}</Title>
               <Autor>{author}</Autor>
-              <Points>$ {points}</Points>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Icon
+                  name="loyalty"
+                  size={15}
+                  color="#000"
+                  style={{ marginRight: 2 }}
+                />
+                <Points>{points}</Points>
+              </View>
             </View>
           </ContainerRightUpside>
 

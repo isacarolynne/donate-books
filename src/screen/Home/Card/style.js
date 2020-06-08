@@ -1,16 +1,16 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-    width: 96%;
+    width: 98%;
     height: 130px;
     display: flex;
     flexFlow: row nowrap;
     justifyContent: space-around;
     alignItems:center
     backgroundColor: #ffffffff;
-    border: 1px solid black;
-    borderRadius: 15px;
-    marginBottom: 20px;
+    border: 0.7px solid #000;
+    borderRadius: 10px;
+    marginBottom: 15px;
 `;
 
 export const ContainerLeft = styled.View`
