@@ -29,46 +29,39 @@ const Card = (props) => {
     handleClickCard,
   } = props;
 
-  return (
-    <TouchableOpacity
-      onPress={() => handleClickCard(id, nameDonor, donorId, points)}
-    >
-      <Container>
-        <ContainerLeft>
-          <Image
-            style={{ display: "flex", flex: 1, height: 50, width: 100 }}
-            source={{ uri: profilePicture ? profilePicture : user }}
-          />
-        </ContainerLeft>
-        <ContainerRight>
-          <ContainerRightUpside>
-            <View>
-              <Title>{title}</Title>
-              <Autor>{author}</Autor>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <Icon
-                  name="loyalty"
-                  size={15}
-                  color="#000"
-                  style={{ marginRight: 2 }}
-                />
-                <Points>{points}</Points>
-              </View>
-            </View>
-          </ContainerRightUpside>
+    return (
+        <TouchableOpacity onPress={() => handleClickCard(id, nameDonor, donorId, points)}>
+            <Container>
+                <ContainerLeft>
+                    <Image
+                        style={{ display: 'flex', flex: 1, height: 50, width: 100 }}
+                        source={profilePicture}
+                    />
+                </ContainerLeft>
+                <ContainerRight>
+                    <ContainerRightUpside>
+                        <View style={{ backgroundColor: '' }}>
+                            <Title>{title}</Title>
+                        </View>
 
-          <ContainerRightDownside>
-            <Description numberOfLines={4}>{description}</Description>
-          </ContainerRightDownside>
-        </ContainerRight>
-      </Container>
-    </TouchableOpacity>
-  );
+                        <View style={{ backgroundColor: '' }}>
+                            <Autor>{author}</Autor>
+                        </View>
+
+                        <View style={{ backgroundColor: '' }}>
+                            <Points>$ {points}</Points>
+                        </View>
+                    </ContainerRightUpside>
+
+                    <ContainerRightDownside>
+                        <View style={{ backgroundColor: '' }}>
+                            <Description numberOfLines={4}>{description}</Description>
+                        </View>
+                    </ContainerRightDownside>
+                </ContainerRight>
+            </Container>
+        </TouchableOpacity>
+    );
 };
 
 export default Card;
