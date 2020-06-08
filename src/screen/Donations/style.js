@@ -1,50 +1,51 @@
-import styled from 'styled-components/native'
-
+import styled from "styled-components/native";
 
 export const Container = styled.View`
-    justifyContent: center;
-    marginTop: 50px;
-`
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  margin-top: 50px;
+`;
 
 export const Item = styled.View`
-    display: flex;
-    flexDirection: row;
-    margin: 4px;
-    padding: 7px;
-    backgroundColor: #FEB665;
-    borderRadius: 7px;
-    border: 0.5px solid #000;
-`
+  display: flex;
+  flex-direction: row;
+  margin: 4px;
+  padding: 7px;
+  background-color: #feb665;
+  border-radius: 7px;
+  border: 0.5px solid #000;
+`;
 export const InfoView = styled.View`
-    flex: 2;
-`
+  flex: 2;
+`;
 
 export const ViewButtons = styled.View`
-    flexDirection: row;
-    alignItems: center;
-`
+  flex-direction: row;
+  align-items: center;
+`;
 
 export const TouchableOpacityCompleted = styled.TouchableOpacity`
-    width: 40px;
-    height: 40px;
-    borderRadius: 5px;
-    backgroundColor: green;
-    justifyContent: center;
-    alignItems: center;
-`
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: green;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const TouchableOpacityCancel = styled.TouchableOpacity`
-    width: 40px;
-    height: 40px;
-    borderRadius: 5px;
-    backgroundColor: red;
-    justifyContent: center;
-    alignItems: center;
-    marginRight: 4px;
-`
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: red;
+  justify-content: center;
+  align-items: center;
+  margin-right: 4px;
+`;
 
 export const Title = styled.Text`
-    textAlign: center;
-    fontSize:20px;
-    marginBottom: 5px;
-`
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 5px;
+`;
