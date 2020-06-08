@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, Alert } from 'react-native'
 import api from '../../services/api'
 
 import {
@@ -42,12 +42,11 @@ export default function Login({ navigation }) {
       AsyncStorage.setItem('nameUser', String(response.data.user.name))
       AsyncStorage.setItem('credits', String(response.data.user.credits))
       
-      console.log(response)
-      alert('Login efetuado com sucesso!')
+      Alert.alert(undefined, 'Login efetuado com sucesso!')
 
       navigation.navigate('Home')
     }catch{
-      alert('Erro, verifique seu email e senha')
+      Alert.alert(undefined,'Erro, verifique seu email e senha')
     }
   }
 

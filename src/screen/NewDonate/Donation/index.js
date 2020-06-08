@@ -126,7 +126,7 @@ export default function Donate(props) {
             data={books}
             style={{ marginBottom: 10 }}
             renderItem={({ item }) => <Item item={item.volumeInfo} />}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id.toString()}
           />
         </SafeAreaView>
       </ContainerInsideKeyboard>

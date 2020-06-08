@@ -1,19 +1,20 @@
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 
 export const ContainerView = styled.View`
-    flex: 1;
-    justifyContent: center;
+  flex: 1;
+  justify-content: center;
 `;
 
 export const ItemContacts = styled.TouchableOpacity`
-    backgroundColor: #FEB665;
-    margin: 2px;
-    borderRadius: 5px;
-    padding: 10px;
-    border: 0.5px solid #414141;
-    boxShadow: 5px 10px;
+  background-color: #e3e3e3;
+  margin: 3px;
+  border-radius: 3px;
+  padding: 10px;
+  margin-left: 5px;
+  margin-right: 8px;
+  border: 0.1px solid #000;
 `;
 
 export const TextContact = styled.Text`
-    fontSize: 18px;
+  font-size: 18px;
 `;

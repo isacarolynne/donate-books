@@ -86,12 +86,8 @@ export default function Book(props) {
 
       alert("Livro registrado com sucesso!");
 
-<<<<<<< HEAD
       setOpen(false)
       props.handleDonate(null)
-=======
-      setOpen(false);
->>>>>>> 46eb01defd022ae7bc018fb716d30be72bcce079
     } catch (e) {
       console.log(e);
       alert(e);
