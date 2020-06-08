@@ -85,11 +85,17 @@ const styles = StyleSheet.create({
     color: '#01337f'
   },
   iconUser: {
-    width: 80,
-    height: 80,
-    borderRadius: 50,
-    backgroundColor: '#FEB665',
+    width: 75,
+    height: 75,
     alignItems: 'center'
+  },
+  boxInfo: {
+    backgroundColor: "#ebebeb", 
+    borderRadius: 10, 
+    padding: 25, 
+    borderStyle: 'solid',
+    borderWidth: 0.1,
+    borderColor: "#000",
   },
   textProfile: {
     fontSize: 15,

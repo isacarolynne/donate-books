@@ -115,7 +115,7 @@ export default function Login({ navigation }) {
         navigation.navigate("ChatList");
       } catch (e) {
         console.log(e);
-        alert("Erro, no momento o livro não pode ser doado, tente novamente");
+        alert("No momento o livro não pode ser doado, tente novamente");
       }
     }
   }
@@ -160,7 +160,7 @@ export default function Login({ navigation }) {
                 points={book.credit}
                 description={book.resume}
                 rate={4.7}
-                profilePicture={user}
+                profilePicture={book.picture_book}
                 handleClickCard={handleClickCard}
               />
             );

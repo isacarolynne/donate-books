@@ -4,20 +4,20 @@ export const Container = styled.View`
   display: flex;
   flex: 1;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 35px;
 `;
 
 export const Item = styled.View`
   display: flex;
   flex-direction: row;
-  margin: 4px;
+  margin: 5px;
   padding: 7px;
-  background-color: #feb665;
+  background-color: #eeeeee;
   border-radius: 7px;
-  border: 0.5px solid #000;
+  border: 0.3px solid #000;
 `;
 export const InfoView = styled.View`
-  flex: 2;
+  flex: 1;
 `;
 
 export const ViewButtons = styled.View`
@@ -34,14 +34,9 @@ export const TouchableOpacityCompleted = styled.TouchableOpacity`
   align-items: center;
 `;
 
-export const TouchableOpacityCancel = styled.TouchableOpacity`
-  width: 40px;
-  height: 40px;
-  border-radius: 5px;
+export const TouchableOpacityCancel = styled(TouchableOpacityCompleted)`
   background-color: red;
-  justify-content: center;
-  align-items: center;
-  margin-right: 4px;
+  margin-right: 5px;
 `;
 
 export const Title = styled.Text`

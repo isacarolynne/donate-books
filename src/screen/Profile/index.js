@@ -1,89 +1,125 @@
-import React, { useEffect, useState } from 'react';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import api from '../../services/api';
-import { KeyboardAvoidingView, View, Text, TouchableOpacity, AsyncStorage } from 'react-native';
+import React, { useEffect, useState } from "react";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { Octicons, FontAwesome5 } from '@expo/vector-icons';
+import api from "../../services/api";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as donationsDispatchers from "./redux/profile.dispatchers";
+import * as profileDispatchers from '../Donations/redux/donations.dispatchers';
 
-import styles from './style';
+import {
+  KeyboardAvoidingView,
+  View,
+  Text,
+  TouchableOpacity,
+  AsyncStorage,
+  ActivityIndicator,
+} from "react-native";
 
-export default function Profile({ navigation }) {
+import styles from "./style";
 
-  const [nameUser, setNameUser] = useState('');
-  const [totalCompleted, setTotalCompleted] = useState(0);
-  const [totalPending, setTotalPending] = useState(0);
-  const [totalReceivedPending, setTotalReceivedPending] = useState(0);
-  const [totalReceivedCompleted, setTotalReceivedCompleted] = useState(0);
+function Profile(props) {
+  const [nameUser, setNameUser] = useState("");
   const [credits, setCredits] = useState(0);
-  const [loading, setLoading] = useState(false);
-
-  const fetchData = async () => {
-    const nameUser = await AsyncStorage.getItem('nameUser'); 
-    const userId = await AsyncStorage.getItem('userId');
-    const token = await AsyncStorage.getItem('token');
-    const creditsUser = await AsyncStorage.getItem('credits');
-    setNameUser(nameUser);
-    setLoading(true);
-    setCredits(creditsUser);
-
-    try {
-      const { status, data } = await api.get(`/users/${userId}/books/donations`, {
-        headers: {Authorization: `Bearer ${token}`}
-      });
-  
-      if (status === 200) {
-        setTotalCompleted(data.total_completed);
-        setTotalPending(data.total_pending);
-        setTotalReceivedCompleted(data.total_received_completed);
-        setTotalReceivedPending(data.total_received_pending);
-        setLoading(false);
-      } else {
-        throw new Error('Erro ao buscar os dados.');
-      }
-    } catch(err) {
-      console.log(err);
-    }
-  }
 
   useEffect(() => {
+    // fetchCredits();
     fetchData();
-  }, [])
+  }, []);
 
-  async function handleLogout(){
-    await AsyncStorage.removeItem('token');
-    await AsyncStorage.removeItem('userId')
+  const fetchData = async () => {
+    const { actions } = props;
 
-    navigation.navigate('Login')
+    actions.dispatchFetchDonations();
+    actions.dispatchFetchDataUser();
+  };
+
+  const fetchCredits = async () => {
+    const nameUser = await AsyncStorage.getItem("nameUser");
+    const creditsUser = await AsyncStorage.getItem("credits");
+    setNameUser(nameUser);
+    setCredits(creditsUser);
+  };
+
+  async function handleLogout() {
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("userId");
+
+    props.navigation.navigate("Login");
   }
 
+  const { loading, loadingDonations, donations, dataUser } = props;
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={'padding'} enabled>
+    <KeyboardAvoidingView style={styles.container} behavior={"padding"} enabled>
       <View style={styles.iconUser}>
-        <Icon name="face" size={60} color="#000" style={{ marginTop: 7 }} />
+        <FontAwesome5 name="user-circle" size={60} color="black" style={{ marginTop: 7}}/>
       </View>
-      <View style={{ marginTop: 5 }}>
-      <Text style={{ paddingBottom: 30, fontSize: 22 }}>{nameUser}</Text>
+      <View>
+        <Text style={{ fontSize: 22 }}>{dataUser && dataUser.name}</Text>
+        <Text style={{ paddingBottom: 30, fontSize: 12, textAlign: 'center' }}>
+          <Octicons name="star" size={12} color="#F1C40E" /> 
+          {' '}{dataUser && dataUser.points.toFixed(2)}
+        </Text>
       </View>
       <View style={{ marginTop: 1 }}>
-        <View style={{ backgroundColor: '#FEB665', borderRadius: 15, padding: 25,  }}>
-          <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-            <Icon name="loyalty" size={18} color="#000" style={{ marginRight: 5 }}/>
-            <Text style={styles.textProfile}>Créditos disponíveis: {credits}</Text>
+        <View
+          style={styles.boxInfo}
+        >
+          <View style={{ flexDirection: "row", marginBottom: 5 }}>
+            <Icon
+              name="loyalty"
+              size={18}
+              color="#000"
+              style={{ marginRight: 5 }}
+            />
+            <Text style={styles.textProfile}>
+              Créditos disponíveis: {dataUser && dataUser.credits}
+            </Text>
           </View>
-          <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-            <Icon name="favorite" size={18} color="#000" style={{ marginRight: 5 }}/>
-            <Text style={styles.textProfile}>Doações concluídas: {totalCompleted}</Text>
+          <View style={{ flexDirection: "row", marginBottom: 5 }}>
+            <Icon
+              name="favorite"
+              size={18}
+              color="#000"
+              style={{ marginRight: 5 }}
+            />
+            <Text style={styles.textProfile}>
+              Doações concluídas: {donations && donations.total_completed}
+            </Text>
           </View>
-          <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-            <Icon name="cached" size={16} color="#000" style={{ marginRight: 5 }}/>
-            <Text style={styles.textProfile} >Doações pendentes: {totalPending}</Text>
+          <View style={{ flexDirection: "row", marginBottom: 5 }}>
+            <Icon
+              name="cached"
+              size={16}
+              color="#000"
+              style={{ marginRight: 5 }}
+            />
+            <Text style={styles.textProfile}>
+              Doações pendentes: {donations && donations.total_pending}
+            </Text>
           </View>
-          <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-            <Icon name="check" size={16} color="#000" style={{ marginRight: 5 }}/>
-            <Text style={styles.textProfile}>Recebimentos concluídos: {totalReceivedCompleted}</Text>
+          <View style={{ flexDirection: "row", marginBottom: 5 }}>
+            <Icon
+              name="check"
+              size={16}
+              color="#000"
+              style={{ marginRight: 5 }}
+            />
+            <Text style={styles.textProfile}>
+              Recebimentos concluídos: {donations && donations.total_received_completed}
+            </Text>
           </View>
-          <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-            <Icon name="restore" size={16} color="#000" style={{ marginRight: 5 }}/>
-            <Text style={styles.textProfile}>Recebimentos pendentes: {totalReceivedPending}</Text>
+          <View style={{ flexDirection: "row", marginBottom: 5 }}>
+            <Icon
+              name="restore"
+              size={16}
+              color="#000"
+              style={{ marginRight: 5 }}
+            />
+            <Text style={styles.textProfile}>
+              Recebimentos pendentes: {donations && donations.total_received_pending}
+            </Text>
           </View>
         </View>
       </View>
@@ -96,3 +132,14 @@ export default function Profile({ navigation }) {
     </KeyboardAvoidingView>
   );
 }
+
+const mapStateToProps = (state) => ({
+  donations: state.donationsReducer.donations,
+  dataUser: state.profileReducer.dataUser 
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({ ...donationsDispatchers, ...profileDispatchers }, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
