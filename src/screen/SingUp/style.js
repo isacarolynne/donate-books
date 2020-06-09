@@ -2,35 +2,35 @@ import styled from 'styled-components/native'
 import { Platform } from 'react-native'
 
 export const Title = styled.Text`
-    fontSize:40px;
+    fontSize: 40px;
     fontWeight: bold;
 `
-export const ContainerSigUp = styled.View`
-    flexDirection: column;
-    width: 100%;
-    alignItems: center;
-    justifyContent: center;
-    paddingBottom:20px;
 
+export const ContainerSigUp = styled.ScrollView.attrs({
+    contentContainerStyle: {
+        justifyContent: 'space-around',
+    }
+})`
+    flex: 1;
+    flexDirection: column;
+    paddingRight: 10px;
 `
 
 export const Title_email = styled.TextInput`
-    fontSize:20px;
-    width: 80%;
-    height:40px;
+    height: 40px;
     borderColor: #ADADAD;
-    borderWidth:1px;
-    borderRadius: 10px;
+    borderWidth: 1px;
+    borderRadius: 10px; 
     paddingLeft: 10px;
     paddingRight: 10px;
-    alignItems: center;
-    marginTop:25px;
-
+    marginTop: 10px;
+    marginBottom: 36px;
 `
+
 export const Title_name = styled(Title_email)`
     borderColor:#ABAAAA;
-    fontSize:20px;
 `
+
 export const Title_password = styled(Title_email)`
 
 `
@@ -55,8 +55,8 @@ export const ButtomTouchableOpacity = styled.TouchableOpacity`
 export const Title_text = styled.Text`
     fontSize:20px;
     borderRadius: 2px;
-    
 `
+
 export const ContainerLogin = styled.View`
     flexDirection: column;
     alignItems: center;
@@ -68,22 +68,22 @@ export const Title_text_login = styled.Text`
     fontSize:15px;
     
 `
+
 export const Text_login = styled(Title_text_login)`
     color: #01337f;
     fontWeight: bold;
 `
-export const ContainerKeyboard = styled.KeyboardAvoidingView.attrs({
-        behavior: Platform.OS === 'ios' ? 'padding' : 'height',
-      })`
-    alignItems: center;
-    justifyContent: center;
 
+export const ContainerKeyboard = styled.KeyboardAvoidingView.attrs({
+    behavior: Platform.OS === 'ios' ? 'padding' : 'height',
+})`
+    flex: 1;
 `
 
 export const ContainerInsideKeyboard = styled.View`
+    flex: 1;
     flexDirection: column;
+    justifyContent: space-around;
     alignItems: center;
-    justifyContent: center;
-    width: 100%;
-    height: 100%;
+    padding: 24px;
 `
